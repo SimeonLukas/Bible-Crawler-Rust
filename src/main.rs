@@ -2,6 +2,7 @@ use regex::Regex;
 use std::fs::File;
 use std::io;
 use std::io::prelude::*;
+use serde_json::{Number, Value};
 
 #[tokio::main]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -11,7 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         "1. Einheitsübersetzung (EU)", "2. Lutherbibel (LUT)", "DBU", "ELB"
     );
     let mut version = String::new();
-    let mut buch = String::new();
+    let mut book = String::new();
 
     io::stdin()
         .read_line(&mut version)
@@ -20,11 +21,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     version = version.trim().to_string();
 
     if version == "1" || version == "EU" {
-        println!("Die Einheitsüberstzung wurde gewählt!");
+        println!("Die Einheitsüberstzung wurde gewählt.");
         version = "EU".to_string();
-        io::stdin()
-            .read_line(&mut version)
-            .expect("Welches Buch möchtest du lesen?");
     }
 
     if version == "2" || version == "LUT" {
@@ -32,13 +30,41 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         version = "LUT".to_string();
     }
 
+
+
+
+
+        let json = format!("{version}.json");
+        let file = File::open(json)
+        .expect("file should open read only");
+        let json: serde_json::Value = serde_json::from_reader(file)
+        .expect("file should be proper JSON");
+        let Books = json.get("Books")
+        .expect("file should have Books key");
+        println!("{}", Books);
+        println!("Welches Buch möchtest du lesen? Bitte Nummer angeben.");
+        io::stdin()
+            .read_line(&mut book)
+            .expect("Dieses Buch kenne ich nicht!");
+        let book = book.trim();
+        let book = json.get(book)
+        .expect("file should have key");
+        let chapters = book.get("chapters")
+        .expect("file should have key");
+        let chapters = chapters.to_string();
+        let chapters: u8 = chapters.parse().unwrap();
+        let book = book.get("name")
+        .expect("file should have key");
+        println!("{}", &book);
+
     println!("{}", "Dokument wird erstellt!");
     let dateiname = format!("{version}-Bibel.md");
     let mut file = File::create(&dateiname).expect("Datei konnte leider nicht erstellt werden.");
     let mut ausgabe = " ".to_string();
-    for n in 1..2 {
+    for n in 1..chapters+1 {
         let url = "https://www.bibleserver.com/";
-        let urlfin = format!("{url}{version}/{n}");
+        let urlfin = format!("{url}{version}/{book}{n}");
+        println!("{}", urlfin);
         let ergebnis: String = reqwest::get(urlfin).await?.text().await?.to_string();
         let split: Vec<&str> = ergebnis
             .split("<header style=\"grid-row-start: 1;grid-row-end: 2\">")
