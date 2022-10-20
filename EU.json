@@ -1,8 +1,0 @@
-{
-    "Books": "1. Genesis | 2. Exodus",
-    "1": "Genesis",
-    "2":{
-      "name": "Exodus",
-      "chapters": 40
-    }
-  }
