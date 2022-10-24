@@ -70,15 +70,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         booklist.push_str(" | ")
         
     }
+    // Show List of Books
     println!("{}", &booklist);
     println!("Welches Buch möchtest du lesen? Bitte Nummer angeben.");
+    // user selects book to download
     io::stdin()
         .read_line(&mut book)
         .expect("Dieses Buch kenne ich nicht!");
         
     let book = book.trim();
-    let mut book: u8 = book.parse().unwrap();
-    if book > books || book == 0{
+    let mut book: u8 = book.parse().expect("Es wurde keine Nummer angegeben.");
+    // fallback on wrong input
+    if book > books || book == 0 { 
         println!("Dieses Buch gibt es nicht. Es wird das Buch Genesis gewählt.");
         book = 1;
         
@@ -134,6 +137,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     file.write_all(ausgabe.as_bytes())
         .expect("Inhalt konnte leider nicht geschrieben werden!");
-    println!("{}", "Dokument wurde erstellt!");
+    println!("Das Dokument {}/{}.md wurde erstellt.", &version, &book);
     Ok(())
 }
