@@ -120,7 +120,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         let replace_linebreaks = Regex::new(r#"\n"#).unwrap();
         let replace_footnotes = Regex::new(r#".[0-9]]"#).unwrap();
         let text = split_2[0];
-        // println!("{:#?}", &m);
         let text = replace_biblename.replace_all(&text, "#");
         let text = replace_tags.replace_all(&text, "");
         let text = replace_linebreaks.replace_all(&text, "");
