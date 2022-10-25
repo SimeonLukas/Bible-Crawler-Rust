@@ -1,4 +1,4 @@
-name: Rust
+name: Generate Binary for Linux
 
 on:
   push:
