@@ -1,0 +1,25 @@
+name: Generate Binary for Windows
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: windows
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: 😀 build Binary
+      run: cargo build --release
+    - name: 🎉 save Binary
+      uses: actions/upload-artifact@v3
+      with:
+          name: release
+          path: ./target/release/bible-crawler.exe
