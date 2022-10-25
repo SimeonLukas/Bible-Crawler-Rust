@@ -1,0 +1,27 @@
+name: Rust
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: Build
+      run: cargo build --release
+    - name: run the binary
+      run: ./home/runner/work/Bible-Crawler-Rust/Bible-Crawler-Rust/target/release/bible-crawler
+    - name: 🎉 save Binary
+      uses: actions/upload-artifact@v3
+      with:
+          name: release
+          path: /home/runner/work/Bible-Crawler-Rust/Bible-Crawler-Rust/target/release/bible-crawler
