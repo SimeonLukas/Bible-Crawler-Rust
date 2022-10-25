@@ -136,6 +136,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     file.write_all(ausgabe.as_bytes())
         .expect("Inhalt konnte leider nicht geschrieben werden!");
-    println!("Das Dokument {}/{}.md wurde erstellt.", &version, &book);
+    println!("Das Dokument {}.md wurde im Ordner {} erstellt.", &book ,&version);
     Ok(())
 }
