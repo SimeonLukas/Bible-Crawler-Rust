@@ -16,10 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Build
+    - name: 😀 build Binary
       run: cargo build --release
-    - name: run the binary
-      run: ./home/runner/work/Bible-Crawler-Rust/Bible-Crawler-Rust/target/release/bible-crawler
     - name: 🎉 save Binary
       uses: actions/upload-artifact@v3
       with:
