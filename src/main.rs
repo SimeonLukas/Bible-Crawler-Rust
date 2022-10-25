@@ -11,13 +11,14 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Include all bible .json files
     let eu_json = include_str!("EU.json").to_string();
     let lut_json = include_str!("LUT.json").to_string();
+    let elb_json = include_str!("ELB.json").to_string();
     
     
     println!("Welche Bibel soll es sein?");
     // Print all available bibles in a table
     println!(
-        "{0: <30} | {1: <30}",
-        "1. Einheitsübersetzung (EU)", "2. Lutherbibel (LUT)"
+        "{0: <30} | {1: <30} | {2: <30}",
+        "1. Einheitsübersetzung (EU)", "2. Luther Bibel (LUT)", "3. Elberfelder Bibel (ELB)"
     );
 
     // generate mutable variables
@@ -32,15 +33,21 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     version = version.trim().to_string();
 
     if version == "1" || version == "EU" {
-        println!("Die Einheitsüberstzung wurde gewählt.");
+        println!("Die Einheitsübersetzung wurde gewählt.");
         version = "EU".to_string();
         json = eu_json;
     }
 
     else if version == "2" || version == "LUT" {
-        println!("Die Lutherbibel wurde gewählt!");
+        println!("Die Luther Bibel wurde gewählt!");
         version = "LUT".to_string();
         json = lut_json;
+    }
+
+    else if version == "3" || version == "ELB" {
+        println!("Die Elberfelder Bibel wurde gewählt!");
+        version = "ELB".to_string();
+        json = elb_json;
     }
 
     else{
