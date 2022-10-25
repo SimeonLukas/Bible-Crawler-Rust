@@ -17,6 +17,20 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build
-      run: cargo build --verbose
-    - name: Run tests
-      run: cargo test --verbose
+      run: cargo build --release
+    - name: make download folder
+      run: mkdir downloads
+    - name: step 2 - Add artifacts to publish to the temp folder
+        run: |
+          cd target
+          cd release
+          echo 'bible-crawler'    > bible-crawler.*
+          cd ..
+          cd ..
+    
+      - name: Step 3 - Use the Upload Artifact GitHub Action
+        uses: actions/upload-artifact@v2
+        with: 
+          name: assets-for-download
+          path: downloads
+      
