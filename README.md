@@ -3,7 +3,7 @@
 My very first programm written in Rust.
 So this is a simple Web-Crawler.
 It fetches .html from a Bible-Website and converts it to .md files.
-Until now I provide the actuel Einheitsübersetzung and the new Luther-Version.
+Until now I provide the new Einheitsübersetzung and the new Luther-Version.
 But its Easy to add other versions.
 
 Please try it.
