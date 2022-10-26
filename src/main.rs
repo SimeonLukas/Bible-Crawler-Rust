@@ -12,8 +12,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let eu_json = include_str!("EU.json").to_string();
     let lut_json = include_str!("LUT.json").to_string();
     let elb_json = include_str!("ELB.json").to_string();
-    
-    
+
     println!("Welche Bibel soll es sein?");
     // Print all available bibles in a table
     println!(
@@ -36,22 +35,18 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         println!("Die Einheitsübersetzung wurde gewählt.");
         version = "EU".to_string();
         json = eu_json;
-    }
-
-    else if version == "2" || version == "LUT" {
+    } else if version == "2" || version == "LUT" {
         println!("Die Luther Bibel wurde gewählt!");
         version = "LUT".to_string();
         json = lut_json;
-    }
-
-    else if version == "3" || version == "ELB" {
+    } else if version == "3" || version == "ELB" {
         println!("Die Elberfelder Bibel wurde gewählt!");
         version = "ELB".to_string();
         json = elb_json;
-    }
-
-    else{
-        println!("Da keine vorhandene Bibel gewählt wurde, wurde die Einheitsübersetzung ausgewählt.");
+    } else {
+        println!(
+            "Da keine vorhandene Bibel gewählt wurde, wurde die Einheitsübersetzung ausgewählt."
+        );
         version = "EU".to_string();
         json = eu_json;
     }
@@ -62,7 +57,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let books = books.to_string();
     let books: u8 = books.parse().unwrap();
     for n in 1..books + 1 {
-        if n%5 == 0{
+        if n % 5 == 0 {
             booklist.push_str("\n");
         }
         let number = n.to_string();
@@ -75,7 +70,6 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         booklist.push_str(". ");
         booklist.push_str(&book_name);
         booklist.push_str(" | ")
-        
     }
     // Show List of Books
     println!("{}", &booklist);
@@ -84,14 +78,13 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     io::stdin()
         .read_line(&mut book)
         .expect("Dieses Buch kenne ich nicht!");
-        
+
     let book = book.trim();
     let mut book: u8 = book.parse().expect("Es wurde keine Nummer angegeben.");
     // fallback on wrong input
-    if book > books || book == 0 { 
+    if book > books || book == 0 {
         println!("Dieses Buch gibt es nicht. Es wird das Buch Genesis gewählt.");
         book = 1;
-        
     }
     let book = book.to_string();
     let book = json.get(book).expect("file should have key");
@@ -143,6 +136,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
     file.write_all(ausgabe.as_bytes())
         .expect("Inhalt konnte leider nicht geschrieben werden!");
-    println!("Das Dokument {}.md wurde im Ordner {} erstellt.", &book ,&version);
+    println!(
+        "Das Dokument {}.md wurde im Ordner {} erstellt.",
+        &book, &version
+    );
     Ok(())
 }
