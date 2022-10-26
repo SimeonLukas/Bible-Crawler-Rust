@@ -2,9 +2,8 @@ name: Generate Binary for Windows
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    tags:
+      - "v*.*.*"
 
 env:
   CARGO_TERM_COLOR: always
@@ -23,3 +22,7 @@ jobs:
       with:
           name: release
           path: ./target/release/bible-crawler.exe
+    - name: 📄 add to Release
+      uses: softprops/action-gh-release@v1
+      with:
+          files: ./target/release/bible-crawler.exe
