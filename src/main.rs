@@ -5,9 +5,33 @@ use std::fs::File;
 use std::io;
 use std::io::prelude::*;
 use std::path::Path;
+use std::process::exit;
+
+
+fn main(){
+    start();
+    let mut entscheidung = String::new();
+    println!("Nochmal? J/N");
+    io::stdin()
+    .read_line(&mut entscheidung)
+    .expect("Diese Version kenne ich nicht!");
+
+    entscheidung = entscheidung.trim().to_string();
+
+    if entscheidung == "N" || entscheidung == "n"{
+        exit(1);
+    }
+    else{
+        main();
+    }
+
+
+}
+
+
 
 #[tokio::main]
-async fn main() -> Result<(), Box<dyn std::error::Error>> {
+async fn start() -> Result<(), Box<dyn std::error::Error>> {
     // Include all bible .json files
     let eu_json = include_str!("EU.json").to_string();
     let lut_json = include_str!("LUT.json").to_string();
