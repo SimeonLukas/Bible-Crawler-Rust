@@ -22,4 +22,9 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
           name: release
-          path: /home/runner/work/Bible-Crawler-Rust/Bible-Crawler-Rust/target/release/bible-crawler
+          path: ./target/release/bible-crawler
+    - name: 📄 add to Release
+      uses: softprops/action-gh-release@v1
+      if: startsWith(github.ref, 'refs/tags/')
+      with:
+          files: ./target/release/bible-crawler
