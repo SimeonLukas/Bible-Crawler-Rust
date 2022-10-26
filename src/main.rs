@@ -18,7 +18,10 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Print all available bibles in a table
     println!(
         "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
-        "1. Einheitsübersetzung (EU)", "2. Luther Bibel (LUT)", "3. Elberfelder Bibel (ELB)", "4. Hoffnung für alle (HFA)"
+        "1. Einheitsübersetzung (EU)",
+        "2. Luther Bibel (LUT)",
+        "3. Elberfelder Bibel (ELB)",
+        "4. Hoffnung für alle (HFA)"
     );
 
     // generate mutable variables
