@@ -7,28 +7,22 @@ use std::io::prelude::*;
 use std::path::Path;
 use std::process::exit;
 
-
-fn main(){
+fn main() {
     start();
     let mut entscheidung = String::new();
     println!("Nochmal? J/N");
     io::stdin()
-    .read_line(&mut entscheidung)
-    .expect("Diese Version kenne ich nicht!");
+        .read_line(&mut entscheidung)
+        .expect("Diese Version kenne ich nicht!");
 
     entscheidung = entscheidung.trim().to_string();
 
-    if entscheidung == "N" || entscheidung == "n"{
+    if entscheidung == "N" || entscheidung == "n" {
         exit(1);
-    }
-    else{
+    } else {
         main();
     }
-
-
 }
-
-
 
 #[tokio::main]
 async fn start() -> Result<(), Box<dyn std::error::Error>> {
