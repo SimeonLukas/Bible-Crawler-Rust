@@ -2,9 +2,8 @@ name: Generate Binary for Linux
 
 on:
   push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+    tags:
+      - "v*.*.*"
 
 env:
   CARGO_TERM_COLOR: always
@@ -25,6 +24,5 @@ jobs:
           path: ./target/release/bible-crawler
     - name: 📄 add to Release
       uses: softprops/action-gh-release@v1
-      if: startsWith(github.ref, 'refs/tags/')
       with:
           files: ./target/release/bible-crawler
