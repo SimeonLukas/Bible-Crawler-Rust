@@ -1,0 +1,5 @@
+/target
+*.md
+*.txt
+*.html
+.gitignore
