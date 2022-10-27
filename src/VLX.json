@@ -1,62 +1,62 @@
 {
     "1": {
-        "name": "Genesis",
+        "name": "1. Mose",
         "chapters": 50
     },
     "2": {
-        "name": "Exodus",
+        "name": "2. Mose",
         "chapters": 40
     },
     "3": {
-        "name": "Leviticus",
+        "name": "3. Mose",
         "chapters": 27
     },
     "4": {
-        "name": "Numbers",
+        "name": "4. Mose",
         "chapters": 36
     },
     "5": {
-        "name": "Deutronomy",
+        "name": "5. Mose",
         "chapters": 34
     },
     "6": {
-        "name": "Joshua",
+        "name": "Josua",
         "chapters": 24
     },
     "7": {
-        "name": "Judges",
+        "name": "Richter",
         "chapters": 21
     },
     "8": {
-        "name": "Ruth",
+        "name": "Rut",
         "chapters": 4
     },
     "9": {
-        "name": "1 Samuel",
+        "name": "1. Samuel",
         "chapters": 31
     },
     "10": {
-        "name": "2 Samuel",
+        "name": "2. Samuel",
         "chapters": 24
     },
     "11": {
-        "name": "1 Kings",
+        "name": "1. Könige",
         "chapters": 22
     },
     "12": {
-        "name": "2 Kings",
+        "name": "2. Könige",
         "chapters": 24
     },
     "13": {
-        "name": "1 Chronicles",
+        "name": "1. Chronik",
         "chapters": 29
     },
     "14": {
-        "name": "2 Chronicles",
+        "name": "2. Chronik",
         "chapters": 36
     },
     "15": {
-        "name": "Ezra",
+        "name": "Esra",
         "chapters": 10
     },
     "16": {
@@ -68,44 +68,44 @@
         "chapters": 10
     },
     "18": {
-        "name": "Job",
+        "name": "Hiob",
         "chapters": 42
     },
     "19": {
-        "name": "Psalms",
+        "name": "Psalmen",
         "chapters": 150
     },
     "20": {
-        "name": "Proverbs",
+        "name": "Sprüche",
         "chapters": 31
     },
     "21": {
-        "name": "Ecclesiastes",
+        "name": "Prediger",
         "chapters": 12
     },
     "22": {
-        "name": "Song of Solomon",
+        "name": "Hoheslied",
         "chapters": 8
     },
     "23": {
-        "name": "Isaiah",
+        "name": "Jesaja",
         "chapters": 66
     },
     "24": {
-        "name": "Jeremiah",
+        "name": "Jeremia",
         "chapters": 52
     },
     "25": {
-        "name": "Lamentations",
+        "name": "Klagelieder",
         "chapters": 5
     },
     "26": {
-        "name": "Ezekiel",
+        "name": "Hesekiel",
         "chapters": 48
     },
     "27": {
         "name": "Daniel",
-        "chapters": 14
+        "chapters": 12
     },
     "28": {
         "name": "Hosea",
@@ -120,15 +120,15 @@
         "chapters": 9
     },
     "31": {
-        "name": "Obadiah",
+        "name": "Obadja",
         "chapters": 1
     },
     "32": {
-        "name": "Jonah",
+        "name": "Jona",
         "chapters": 4
     },
     "33": {
-        "name": "Micah",
+        "name": "Micha",
         "chapters": 7
     },
     "34": {
@@ -136,11 +136,11 @@
         "chapters": 3
     },
     "35": {
-        "name": "Habbakuk",
+        "name": "Habakuk",
         "chapters": 3
     },
     "36": {
-        "name": "Zephaniah",
+        "name": "Zefanja",
         "chapters": 3
     },
     "37": {
@@ -148,75 +148,75 @@
         "chapters": 2
     },
     "38": {
-        "name": "Zechariah",
+        "name": "Sacharja",
         "chapters": 14
     },
     "39": {
-        "name": "Malachi",
-        "chapters": 4
+        "name": "Maleachi",
+        "chapters": 3
     },
     "40": {
-        "name": "Matthew",
+        "name": "Matthäus",
         "chapters": 28
     },
     "41": {
-        "name": "Mark",
+        "name": "Markus",
         "chapters": 16
     },
     "42": {
-        "name": "Luke",
+        "name": "Lukas",
         "chapters": 24
     },
     "43": {
-        "name": "John",
+        "name": "Johannes",
         "chapters": 21
     },
     "44": {
-        "name": "Acts",
+        "name": "Apostelgeschichte",
         "chapters": 28
     },
     "45": {
-        "name": "Romans",
+        "name": "Römer",
         "chapters": 16
     },
     "46": {
-        "name": "1 Corinthians",
+        "name": "1. Korinther",
         "chapters": 16
     },
     "47": {
-        "name": "2 Corinthians",
+        "name": "2. Korinther",
         "chapters": 13
     },
     "48": {
-        "name": "Galatians",
+        "name": "Galater",
         "chapters": 6
     },
     "49": {
-        "name": "Ephesians",
+        "name": "Epheser",
         "chapters": 6
     },
     "50": {
-        "name": "Philippians",
+        "name": "Philipper",
         "chapters": 4
     },
     "51": {
-        "name": "Colossians",
+        "name": "Kolosser",
         "chapters": 4
     },
     "52": {
-        "name": "1 Thessalonians",
+        "name": "1. Thessalonicher",
         "chapters": 5
     },
     "53": {
-        "name": "2 Thessalonians",
+        "name": "2.Thessalonicher",
         "chapters": 3
     },
     "54": {
-        "name": "1 Timothy",
+        "name": "1.Timotheus",
         "chapters": 6
     },
     "55": {
-      "name": "2 Timothy",
+      "name": "2.Timotheus",
       "chapters": 4
   },
     "56": {
@@ -224,43 +224,43 @@
         "chapters": 3
     },
     "57": {
-        "name": "Philemon",
+        "name": "WhatsApp an Phil",
         "chapters": 1
     },
     "58": {
-        "name": "Hebrews",
+        "name": "Hebräer",
         "chapters": 13
     },
     "59": {
-        "name": "James",
+        "name": "Jakobus",
         "chapters": 5
     },
     "60": {
-        "name": "1 Peter",
+        "name": "1. Petrus",
         "chapters": 5
     },
     "61": {
-        "name": "2 Peter",
+        "name": "2. Petrus",
         "chapters": 3
     },
     "62": {
-        "name": "1 John",
+        "name": "1. Johannes",
         "chapters": 5
     },
     "63": {
-        "name": "2 John",
+        "name": "2. Johannes",
         "chapters": 1
     },
     "64": {
-        "name": "3 John",
+        "name": "3. Johnnes",
         "chapters": 1
     },
     "65": {
-        "name": "Jude",
+        "name": "Mail von Judas",
         "chapters": 1
     },
     "66": {
-        "name": "Revelation",
+        "name": "Offenbarung",
         "chapters": 22
     },
     "67": {
@@ -291,5 +291,5 @@
         "name": "Baruch",
         "chapters": 6
     },
-    "Books": 73
-}
+    "Books": 66
+  }

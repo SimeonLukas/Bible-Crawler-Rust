@@ -32,268 +32,264 @@
       "chapters": 4
   },
   "9": {
-      "name": "Genesis",
-      "chapters": 50
-  },
-  "10": {
       "name": "1 Samuel",
       "chapters": 31
   },
-  "11": {
+  "10": {
       "name": "2 Samuel",
       "chapters": 24
   },
-  "12": {
+  "11": {
       "name": "1 Kings",
       "chapters": 22
   },
-  "13": {
+  "12": {
       "name": "2 Kings",
       "chapters": 24
   },
-  "14": {
+  "13": {
       "name": "1 Chronicles",
       "chapters": 29
   },
-  "15": {
+  "14": {
       "name": "2 Chronicles",
       "chapters": 36
   },
-  "16": {
+  "15": {
       "name": "Ezra",
       "chapters": 10
   },
-  "17": {
+  "16": {
       "name": "Nehemia",
       "chapters": 13
   },
-  "18": {
+  "17": {
       "name": "Esther",
       "chapters": 10
   },
-  "19": {
+  "18": {
       "name": "Job",
       "chapters": 42
   },
-  "20": {
+  "19": {
       "name": "Psalms",
       "chapters": 150
   },
-  "21": {
+  "20": {
       "name": "Proverbs",
       "chapters": 31
   },
-  "22": {
+  "21": {
       "name": "Ecclesiastes",
       "chapters": 12
   },
-  "23": {
+  "22": {
       "name": "Song of Solomon",
       "chapters": 8
   },
-  "24": {
+  "23": {
       "name": "Isaiah",
       "chapters": 66
   },
-  "25": {
+  "24": {
       "name": "Jeremiah",
       "chapters": 52
   },
-  "26": {
+  "25": {
       "name": "Lamentations",
       "chapters": 5
   },
-  "27": {
+  "26": {
       "name": "Ezekiel",
       "chapters": 48
   },
-  "28": {
+  "27": {
       "name": "Daniel",
       "chapters": 12
   },
-  "29": {
+  "28": {
       "name": "Hosea",
       "chapters": 14
   },
-  "30": {
+  "29": {
       "name": "Joel",
       "chapters": 4
   },
-  "31": {
+  "30": {
       "name": "Amos",
       "chapters": 9
   },
-  "32": {
+  "31": {
       "name": "Obadiah",
       "chapters": 1
   },
-  "33": {
+  "32": {
       "name": "Jonah",
       "chapters": 4
   },
-  "34": {
+  "33": {
       "name": "Micah",
       "chapters": 7
   },
-  "35": {
+  "34": {
       "name": "Nahum",
       "chapters": 3
   },
-  "36": {
+  "35": {
       "name": "Habbakuk",
       "chapters": 3
   },
-  "37": {
+  "36": {
       "name": "Zephaniah",
       "chapters": 3
   },
-  "38": {
+  "37": {
       "name": "Haggai",
       "chapters": 2
   },
-  "39": {
+  "38": {
       "name": "Zechariah",
       "chapters": 14
   },
-  "40": {
+  "39": {
       "name": "Malachi",
       "chapters": 3
   },
-  "41": {
+  "40": {
       "name": "Matthew",
       "chapters": 28
   },
-  "42": {
+  "41": {
       "name": "Mark",
       "chapters": 16
   },
-  "43": {
+  "42": {
       "name": "Luke",
       "chapters": 24
   },
-  "44": {
+  "43": {
       "name": "John",
       "chapters": 21
   },
-  "45": {
+  "44": {
       "name": "Acts",
       "chapters": 28
   },
-  "46": {
+  "45": {
       "name": "Romans",
       "chapters": 16
   },
-  "47": {
+  "46": {
       "name": "1 Corinthians",
       "chapters": 16
   },
-  "48": {
+  "47": {
       "name": "2 Corinthians",
       "chapters": 13
   },
-  "49": {
+  "48": {
       "name": "Galatians",
       "chapters": 6
   },
-  "50": {
+  "49": {
       "name": "Ephesians",
       "chapters": 6
   },
-  "51": {
+  "50": {
       "name": "Philippians",
       "chapters": 4
   },
-  "52": {
+  "51": {
       "name": "Colossians",
       "chapters": 4
   },
-  "53": {
+  "52": {
       "name": "1 Thessalonians",
       "chapters": 5
   },
-  "54": {
+  "53": {
       "name": "2 Thessalonians",
       "chapters": 3
   },
-  "55": {
+  "54": {
       "name": "1 Timothy",
       "chapters": 6
   },
-  "56": {
+  "55": {
     "name": "2 Timothy",
     "chapters": 4
 },
-  "57": {
+  "56": {
       "name": "Titus",
       "chapters": 3
   },
-  "58": {
+  "57": {
       "name": "Philemon",
       "chapters": 1
   },
-  "59": {
+  "58": {
       "name": "Hebrews",
       "chapters": 13
   },
-  "60": {
+  "59": {
       "name": "James",
       "chapters": 5
   },
-  "61": {
+  "60": {
       "name": "1 Peter",
       "chapters": 5
   },
-  "62": {
+  "61": {
       "name": "2 Peter",
       "chapters": 3
   },
-  "63": {
+  "62": {
       "name": "1 John",
       "chapters": 5
   },
-  "64": {
+  "63": {
       "name": "2 John",
       "chapters": 1
   },
-  "65": {
+  "64": {
       "name": "3 John",
       "chapters": 1
   },
-  "66": {
+  "65": {
       "name": "Jude",
       "chapters": 1
   },
-  "67": {
+  "66": {
       "name": "Revelation",
       "chapters": 22
   },
-  "68": {
+  "67": {
       "name": "Tobit",
       "chapters": 14
   },
-  "69": {
+  "68": {
       "name": "Judith",
       "chapters": 16
   },
-  "70": {
+  "69": {
       "name": "1 Maccabees",
       "chapters": 16
   },
-  "71": {
+  "70": {
       "name": "2 Maccabees",
       "chapters": 15
   },
-  "72": {
+  "71": {
       "name": "Wisdom of Solomon",
       "chapters": 19
   },
-  "73": {
+  "72": {
       "name": "Sirach",
       "chapters": 51
   },
-  "74": {
+  "73": {
       "name": "Baruch",
       "chapters": 6
   },
-  "Books": 74
+  "Books": 73
 }
