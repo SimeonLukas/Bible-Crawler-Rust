@@ -90,7 +90,7 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let books = json.get("Books").expect("file should have books key");
     let books = books.to_string();
     let books: u8 = books.parse().unwrap();
-    for n in 1..books + 1 {
+    for n in 1..&books + 1 {
         if n % 5 == 0 {
             booklist.push_str("\n");
         }
@@ -112,19 +112,26 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     io::stdin()
         .read_line(&mut book)
         .expect("Dieses Buch kenne ich nicht!");
-
+    let mut v = Vec::new();
     let book = book.trim();
     let mut book: u8 = book.parse().expect("Es wurde keine Nummer angegeben.");
     // fallback on wrong input
     if book > books{
         println!("Dieses Buch gibt es nicht. Es wird das Buch Genesis gewählt.");
         book = 1;
+        v.push(book);
+        
     }
     else if book == 0 {
-    getall(&json);
-    return Ok(());
+        //    printljn!("{}", &z);
+           v = (1..books).collect();
+        
     }
-    let book = book.to_string();
+    else{
+        v.push(book);
+    }
+    for i in v {
+    let book = i.to_string();
     let book = json.get(book).expect("file should have key");
     let chapters = book.get("chapters").expect("file should have key");
     let chapters = chapters.to_string();
@@ -216,6 +223,7 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         "Das Dokument {}.md wurde im Ordner {} erstellt.",
         &book, &version
     );
+}
     Ok(())
 }
 
@@ -355,3 +363,6 @@ fn getall(json: &Value){
     //     &book, &version
     // );
 }
+
+
+
