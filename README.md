@@ -3,7 +3,7 @@
 My very first Program written in Rust.
 So this is a simple Web-Crawler.
 It fetches .html from a Bible-Website and converts it to .md files.
-Until now I provide the german Versions and in the Future international Versions.
+Until now I provide some german Versions and in the Future international Versions.
 
 If you want a special Version, than please open an Issue.
 
