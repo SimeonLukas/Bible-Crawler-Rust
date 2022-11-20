@@ -72,11 +72,11 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         version = "ELB".to_string();
         json = elb_json;
     } else if version == "4" || version == "HFA" {
-        println!("Die Elberfelder Bibel wurde gewählt!");
+        println!("Die Hoffnung für alle Bibel wurde gewählt!");
         version = "HFA".to_string();
         json = hfa_json;
     } else if version == "5" || version == "VLX" {
-        println!("Die Elberfelder Bibel wurde gewählt!");
+        println!("Die Volxbibel Bibel wurde gewählt!");
         version = "VLX".to_string();
         json = vlx_json;
     } else {
