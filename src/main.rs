@@ -195,6 +195,7 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
                     text.push_str(&vers);
                     text.push_str("\n");
                 }
+
             }
         } else {
             url = "https://www.bibleserver.com/".to_string();
@@ -217,6 +218,23 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
             text = text.trim().to_string();
         }
         println!("Kapitel {} gecrawled.", &n);
+
+
+
+
+
+        let replace_verse_start = Regex::new(r"\n(?P<v>\d+)").unwrap();
+        let chapter_text = replace_verse_start.replace_all(&text, "\n ### $v \n").to_string();
+        let chapter_file = format!("{version}/{book}/{book} {n}.md");
+        let dirchapter = format!("{version}/{book}");
+        if Path::new(&dirchapter).exists() != true {
+            fs::create_dir(&dirchapter)?;
+        }
+        let mut chapterfile = File::create(&chapter_file).expect("Datei konnte leider nicht erstellt werden.");
+        chapterfile.write_all(&chapter_text.as_bytes())
+        .expect("Inhalt konnte leider nicht geschrieben werden!");
+
+
         ausgabe.push_str(&text);
         ausgabe.push_str("\n");
     }
