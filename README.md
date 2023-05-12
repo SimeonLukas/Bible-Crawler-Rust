@@ -11,3 +11,5 @@ Just try it.
 Download the Binary in the release Section. You'll find an Exectuable for Windows and for Linux.
 
 God bless you!
+
+[© Simeon Stanek](https://staneks.de)
