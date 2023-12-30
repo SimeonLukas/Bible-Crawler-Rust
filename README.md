@@ -12,4 +12,8 @@ Download the Binary in the release Section. You'll find an Exectuable for Window
 
 God bless you!
 
-[© Simeon Stanek](https://staneks.de)
+## Mac & Linux release
+run in Terminal following command before running the binary:
+```
+sudo chmod +x ./bible-crawler
+```
