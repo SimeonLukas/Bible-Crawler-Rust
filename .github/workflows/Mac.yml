@@ -1,0 +1,28 @@
+name: Generate Binary for Mac
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+env:
+  CARGO_TERM_COLOR: always
+
+jobs:
+  build:
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v3
+    - name: 😀 build Binary
+      run: cargo build --release
+    - name: 🎉 save Binary
+      uses: actions/upload-artifact@v3
+      with:
+          name: release
+          path: ./target/release/bible-crawler.exe
+    - name: 📄 add to Release
+      uses: softprops/action-gh-release@v1
+      with:
+          files: ./target/release/bible-crawler
