@@ -21,7 +21,7 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
           name: release
-          path: ./target/release/bible-crawler.exe
+          path: ./target/release/bible-crawler
     - name: 📄 add to Release
       uses: softprops/action-gh-release@v1
       with:
