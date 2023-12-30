@@ -2,8 +2,8 @@ name: Generate Binary for Mac
 
 on:
   push:
-   # tags:
-    #  - "v*.*.*"
+   tags:
+    - "v*.*.*"
 
 env:
   CARGO_TERM_COLOR: always
