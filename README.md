@@ -8,7 +8,7 @@ Until now I provide some german Versions and in the Future international Version
 If you want a special Version, than please open an Issue.
 
 Just try it.
-Download the Binary in the release Section. You'll find an Exectuable for Windows and for Linux.
+Download the Binary in the release Section. You'll find an Exectuable for Windows, Mac and for Linux.
 
 God bless you!
 
