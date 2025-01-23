@@ -22,7 +22,9 @@ jobs:
       with:
           name: release
           path: ./target/release/bible-crawler
+    - name: 📄 rename File
+      run: mv ./target/release/bible-crawler ./target/release/bible-crawler-linux
     - name: 📄 add to Release
       uses: softprops/action-gh-release@v1
       with:
-          files: ./target/release/bible-crawler
+          files: ./target/release/bible-crawler-linux

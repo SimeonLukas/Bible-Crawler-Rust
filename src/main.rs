@@ -33,16 +33,26 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let elb_json = include_str!("ELB.json").to_string();
     let hfa_json = include_str!("HFA.json").to_string();
     let btx_json = include_str!("BTX.json").to_string();
+    let slt_json = include_str!("SLT.json").to_string();
+    let gnb_json = include_str!("GNB.json").to_string();
+    let neue_json = include_str!("NEUE.json").to_string();
 
     println!("Welche Bibel soll es sein?");
     // Print all available bibles in a table
-    println!("Deutsche Übersetzungen");
+    println!("Übersetzungen");
     println!(
         "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
         "1. Einheitsübersetzung (EU)",
         "2. Luther Bibel (LUT)",
         "3. Elberfelder Bibel (ELB)",
         "4. Hoffnung für alle (HFA)"
+    );
+    println!(
+        "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
+        "5. Schlachter Bibel (SLT)",
+        "6. La Biblia Textual (BTX)",
+        "7. Gute Nachricht Bibel 2018 (GNB)",
+        "8. Neue Evangelistische Übersetzung (NEUE / NeÜ)"
     );
 
     // generate mutable variables
@@ -72,11 +82,26 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         println!("Die Hoffnung für alle Bibel wurde gewählt!");
         version = "HFA".to_string();
         json = hfa_json;
+    } else if version == "5" || version == "SLT" {
+        println!("Die Schlachter Bibel wurde gewählt!");
+        version = "SLT".to_string();
+        json = slt_json;
     } else if version == "6" || version == "BTX" {
         println!("La Biblia Textual wurde gewählt!");
         version = "BTX".to_string();
         json = btx_json;
-    } else {
+    }
+    else if version == "7" || version == "GNB" {
+        println!("Gute Nachricht Bibel 2018 wurde gewählt!");
+        version = "GNB".to_string();
+        json = gnb_json;
+    }
+    else if version == "8" || version == "NEÜ" {
+        println!("Neue Evangelistische Übersetzung wurde gewählt!");
+        version = "NEÜ".to_string();
+        json = neue_json;
+    }
+    else {
         println!(
             "Da keine vorhandene Bibel gewählt wurde, wurde die Einheitsübersetzung ausgewählt."
         );
@@ -150,7 +175,6 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
             let mut url = String::new();
             let mut urlfin = String::new();
             let mut text = String::new();
-            let replace_biblename = Regex::new(r#"<h2 class="bible-name">.*?</h2>"#).unwrap();
             let replace_specialtags = Regex::new(r#"<span class="d-sr-only"></span>"#).unwrap();
             let replace_tags = Regex::new(r#"<.*?>"#).unwrap();
             let replace_linebreaks = Regex::new(r#"\n"#).unwrap();
@@ -164,7 +188,9 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
                 let ergebnis: Vec<&str> = ergebnis[1].split("<footer ").collect();
                 text = ergebnis[0].to_string();
                 text = replace_specialtags.replace_all(&text, "").to_string();
-                text = replace_biblename.replace_all(&text, " ").to_string();
+                text = text.replace("</h1>", "</h1>++break++");
+                text = text.replace("</h2>", "</h2>++break++");
+                text = text.replace("</h3>", "<h3>++break++");
                 text = replace_tags.replace_all(&text, "").to_string();
                 text = replace_linebreaks.replace_all(&text, "").to_string();
                 text = replace_footnotes.replace_all(&text, "").to_string();
@@ -173,6 +199,7 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
                 text = text.replace("\u{3}", "");
                 text = text.replace(" &#x1;", "\n## ");
                 text = text.replace("&#x1;", "\n## ");
+                text = text.replace("++break++", "\n");
                 text = text.trim().to_string();
             
             println!("Kapitel {} gecrawled.", &n);
