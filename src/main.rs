@@ -7,8 +7,6 @@ use std::io;
 use std::io::prelude::*;
 use std::path::Path;
 use std::process::exit;
-// use std::thread;
-// use std::time::Duration;
 
 fn main() {
     start();
@@ -34,7 +32,6 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let lut_json = include_str!("LUT.json").to_string();
     let elb_json = include_str!("ELB.json").to_string();
     let hfa_json = include_str!("HFA.json").to_string();
-    let vlx_json = include_str!("VLX.json").to_string();
     let btx_json = include_str!("BTX.json").to_string();
 
     println!("Welche Bibel soll es sein?");
@@ -46,10 +43,6 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         "2. Luther Bibel (LUT)",
         "3. Elberfelder Bibel (ELB)",
         "4. Hoffnung für alle (HFA)"
-    );
-    println!(
-        "{0: <30} | {1: <30} ",
-        "5. Die Volxbibel (VLX)", "6. La Biblia Textual (BTX)",
     );
 
     // generate mutable variables
@@ -79,10 +72,6 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         println!("Die Hoffnung für alle Bibel wurde gewählt!");
         version = "HFA".to_string();
         json = hfa_json;
-    } else if version == "5" || version == "VLX" {
-        println!("Die Volxbibel Bibel wurde gewählt!");
-        version = "VLX".to_string();
-        json = vlx_json;
     } else if version == "6" || version == "BTX" {
         println!("La Biblia Textual wurde gewählt!");
         version = "BTX".to_string();
@@ -161,56 +150,21 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
             let mut url = String::new();
             let mut urlfin = String::new();
             let mut text = String::new();
-            let replace_biblename = Regex::new(r#"<h1(.*)"#).unwrap();
+            let replace_biblename = Regex::new(r#"<h2 class="bible-name">.*?</h2>"#).unwrap();
+            let replace_specialtags = Regex::new(r#"<span class="d-sr-only"></span>"#).unwrap();
             let replace_tags = Regex::new(r#"<.*?>"#).unwrap();
             let replace_linebreaks = Regex::new(r#"\n"#).unwrap();
             let replace_footnotes = Regex::new(r#".[0-9]]"#).unwrap();
-
-            if version == "VLX" {
-                url = "https://lesen.volxbibel.de/book/".to_string();
-                urlfin = format!("{url}{book}/chapter/{n}");
-                let number = n.to_string();
-                let book = book.to_string();
-                text.push_str("# ");
-                text.push_str(&book);
-                text.push_str(" ");
-                text.push_str(&number);
-                text.push_str(" Die Volxbibel\n");
-                let ergebnis = reqwest::get(urlfin).await?.text().await?.to_string();
-                let ergebnis: Vec<&str> = ergebnis.split("&quot;verses&quot;:").collect();
-                let ergebnis: Vec<&str> = ergebnis[1].split(",&quot;guid&quot;").collect();
-                let ergebnis = ergebnis[0].to_string();
-                let ergebnis = ergebnis.replace("&quot;", "\"");
-                let chapter_json: Vec<Value> =
-                    serde_json::from_str(&ergebnis).expect("file should be proper JSON");
-                for vers in &chapter_json {
-                    let vers = vers.to_string();
-                    let vers_json: serde_json::Value =
-                        serde_json::from_str(&vers).expect("file should be proper JSON");
-                    let label = vers_json.get("label").expect("file should have key");
-                    let vers_text = vers_json.get("text").expect("file should have key");
-
-                    let mut vers = format!("{} {}", &label, &vers_text);
-                    vers = vers.replace("\\n", "");
-                    vers = vers.replace("\"", "");
-                    vers = vers.replace("&#039;", "'");
-                    vers = vers.replace("headline", "##");
-                    vers = vers.trim().to_string();
-                    if vers.len() > 3 {
-                        text.push_str(&vers);
-                        text.push_str("\n");
-                    }
-                }
-            } else {
                 url = "https://www.bibleserver.com/".to_string();
                 urlfin = format!("{url}{version}/{book}{n}");
                 let ergebnis: String = reqwest::get(urlfin).await?.text().await?.to_string();
                 let ergebnis: Vec<&str> = ergebnis
-                    .split("<header style=\"grid-row-start: 1;grid-row-end: 2\">")
+                    .split("<header style=\"grid-row:1 / 2;\">")
                     .collect();
                 let ergebnis: Vec<&str> = ergebnis[1].split("<footer ").collect();
                 text = ergebnis[0].to_string();
-                text = replace_biblename.replace_all(&text, "#").to_string();
+                text = replace_specialtags.replace_all(&text, "").to_string();
+                text = replace_biblename.replace_all(&text, " ").to_string();
                 text = replace_tags.replace_all(&text, "").to_string();
                 text = replace_linebreaks.replace_all(&text, "").to_string();
                 text = replace_footnotes.replace_all(&text, "").to_string();
@@ -220,7 +174,7 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
                 text = text.replace(" &#x1;", "\n## ");
                 text = text.replace("&#x1;", "\n## ");
                 text = text.trim().to_string();
-            }
+            
             println!("Kapitel {} gecrawled.", &n);
 
             let replace_verse_start = Regex::new(r"\n(?P<v>\d+)").unwrap();
