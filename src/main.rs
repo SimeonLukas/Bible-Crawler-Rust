@@ -36,10 +36,11 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let slt_json = include_str!("SLT.json").to_string();
     let gnb_json = include_str!("GNB.json").to_string();
     let neue_json = include_str!("NEUE.json").to_string();
+    let bb_json = include_str!("BB.json").to_string();
 
     println!("Welche Bibel soll es sein?");
     // Print all available bibles in a table
-    println!("Übersetzungen");
+    println!("Übersetzungen von bibleserver.com:");
     println!(
         "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
         "1. Einheitsübersetzung (EU)",
@@ -54,6 +55,8 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         "7. Gute Nachricht Bibel 2018 (GNB)",
         "8. Neue Evangelistische Übersetzung (NEUE / NeÜ)"
     );
+    println!("Übersetzungen von die-bibel.de:");
+    println!("9. Basis Bibel (BB)");
 
     // generate mutable variables
     let mut json = String::new();
@@ -100,6 +103,11 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         println!("Neue Evangelistische Übersetzung wurde gewählt!");
         version = "NEÜ".to_string();
         json = neue_json;
+    }
+    else if version == "9" || version == "BB" {
+        println!("Basis Bibel wurde gewählt!");
+        version = "BB".to_string();
+        json = bb_json;
     }
     else {
         println!(
@@ -179,6 +187,25 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
             let replace_tags = Regex::new(r#"<.*?>"#).unwrap();
             let replace_linebreaks = Regex::new(r#"\n"#).unwrap();
             let replace_footnotes = Regex::new(r#".[0-9]]"#).unwrap();
+            if version == "BB" {
+                url = "https://www.die-bibel.de/bibel/".to_string();
+                urlfin = format!("{url}{version}/{book}.{n}");
+                let ergebnis: String = reqwest::get(urlfin).await?.text().await?.to_string();
+                let ergebnis: Vec<&str> = ergebnis
+                    .split("<ibep-bible-chapter _nghost-ibep-main-c4145848528>")
+                    .collect();
+                let ergebnis: Vec<&str> = ergebnis[1].split("</ibep-bible-chapter>").collect();
+                text = ergebnis[0].to_string();
+                text = text.replace("<br>", "\n");
+                text = text.replace("<bible-v", "\n<bible-v");
+                text = text.replace("</bible-v>", " </bible-v>");
+                text = text.replace("</ibep-bible-passage>", " </ibep-bible-passage>");
+                text = replace_specialtags.replace_all(&text, "").to_string();
+                text = replace_tags.replace_all(&text, "").to_string();
+                text = replace_linebreaks.replace_all(&text, "\n").to_string();
+                text = replace_footnotes.replace_all(&text, "").to_string();
+                text = text.trim().to_string();
+            } else {
                 url = "https://www.bibleserver.com/".to_string();
                 urlfin = format!("{url}{version}/{book}{n}");
                 let ergebnis: String = reqwest::get(urlfin).await?.text().await?.to_string();
@@ -201,6 +228,8 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
                 text = text.replace("&#x1;", "\n## ");
                 text = text.replace("++break++", "\n");
                 text = text.trim().to_string();
+
+            }
             
             println!("Kapitel {} gecrawled.", &n);
 
