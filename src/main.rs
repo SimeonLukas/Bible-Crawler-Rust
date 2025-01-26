@@ -37,6 +37,8 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let gnb_json = include_str!("GNB.json").to_string();
     let neue_json = include_str!("NEUE.json").to_string();
     let bb_json = include_str!("BB.json").to_string();
+    let na28_json = include_str!("NA28.json").to_string();
+    let bhs_json = include_str!("BHS.json").to_string();
 
     println!("Welche Bibel soll es sein?");
     // Print all available bibles in a table
@@ -56,7 +58,12 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         "8. Neue Evangelistische Übersetzung (NEUE / NeÜ)"
     );
     println!("Übersetzungen von die-bibel.de:");
-    println!("9. Basis Bibel (BB)");
+    println!(
+        "{0: <30} | {1: <30} | {2: <30}",
+        "9. Basis Bibel (BB)",
+        "10. Nestle-Aland 28 (NA28)",
+        "11. Biblia Hebraica Stuttgartensia (BHS)"
+    );
 
     // generate mutable variables
     let mut json = String::new();
@@ -108,6 +115,16 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         println!("Basis Bibel wurde gewählt!");
         version = "BB".to_string();
         json = bb_json;
+    }
+    else if version == "10" || version == "NA28" {
+        println!("Nestle-Aland 28 wurde gewaltet!");
+        version = "NA28".to_string();
+        json = na28_json;
+    }
+    else if version == "11" || version == "BHS" {
+        println!("Biblia Hebraica Stuttgartensia wurde gewählt!");
+        version = "BHS".to_string();
+        json = bhs_json;
     }
     else {
         println!(
@@ -187,7 +204,7 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
             let replace_tags = Regex::new(r#"<.*?>"#).unwrap();
             let replace_linebreaks = Regex::new(r#"\n"#).unwrap();
             let replace_footnotes = Regex::new(r#".[0-9]]"#).unwrap();
-            if version == "BB" {
+            if version == "BB" || version == "NA28" || version == "BHS" {
                 url = "https://www.die-bibel.de/bibel/".to_string();
                 urlfin = format!("{url}{version}/{book}.{n}");
                 let ergebnis: String = reqwest::get(urlfin).await?.text().await?.to_string();
@@ -235,7 +252,7 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
 
             let replace_verse_start = Regex::new(r"\n(?P<v>\d+)").unwrap();
             let chapter_text = replace_verse_start
-                .replace_all(&text, "\n ### $v \n")
+                .replace_all(&text, "\n\n ###### $v \n\n")
                 .to_string();
             let chapter_file = format!("{version}/{book}/{book} {n}.md");
             let dirchapter = format!("{version}/{book}");

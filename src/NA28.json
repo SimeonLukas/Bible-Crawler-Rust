@@ -1,0 +1,111 @@
+{
+    "1": {
+        "name": "MAT",
+        "chapters": 28
+    },
+    "2": {
+        "name": "MRk",
+        "chapters": 16
+    },
+    "3": {
+        "name": "LUK",
+        "chapters": 27
+    },
+    "4": {
+        "name": "JHN",
+        "chapters": 21
+    },
+    "5": {
+        "name": "ACT",
+        "chapters": 28
+    },
+    "6": {
+        "name": "ROM",
+        "chapters": 16
+    },
+    "7": {
+        "name": "1CO",
+        "chapters": 16
+    },
+    "8": {
+        "name": "2CO",
+        "chapters": 13
+    },
+    "9": {
+        "name": "GAL",
+        "chapters": 6
+    },
+    "10": {
+        "name": "EPH",
+        "chapters": 6
+    },
+    "11": {
+        "name": "PHP",
+        "chapters": 4
+    },
+    "12": {
+        "name": "COL",
+        "chapters": 4
+    },
+    "13": {
+        "name": "1TH",
+        "chapters": 5
+    },
+    "14": {
+        "name": "2TH",
+        "chapters": 3
+    },
+    "15": {
+        "name": "1TI",
+        "chapters": 6
+    },
+    "16": {
+      "name": "2TI",
+      "chapters": 4
+  },
+    "17": {
+        "name": "TIT",
+        "chapters": 3
+    },
+    "18": {
+        "name": "PHM",
+        "chapters": 1
+    },
+    "19": {
+        "name": "HEB",
+        "chapters": 13
+    },
+    "20": {
+        "name": "JAS",
+        "chapters": 5
+    },
+    "21": {
+        "name": "1PE",
+        "chapters": 5
+    },
+    "22": {
+        "name": "2PE",
+        "chapters": 3
+    },
+    "23": {
+        "name": "1JN",
+        "chapters": 5
+    },
+    "24": {
+        "name": "2JN",
+        "chapters": 1
+    },
+    "25": {
+        "name": "3JN",
+        "chapters": 1
+    },
+    "26": {
+        "name": "JUD",
+        "chapters": 1
+    },
+    "27": {
+        "name": "REV",
+        "chapters": 22
+    },
+    "Books": 27
+}

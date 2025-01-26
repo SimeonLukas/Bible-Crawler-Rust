@@ -1,0 +1,159 @@
+{
+    "1": {
+        "name": "GEN",
+        "chapters": 50
+    },
+    "2": {
+        "name": "EXO",
+        "chapters": 40
+    },
+    "3": {
+        "name": "LEV",
+        "chapters": 27
+    },
+    "4": {
+        "name": "NUM",
+        "chapters": 36
+    },
+    "5": {
+        "name": "DEU",
+        "chapters": 34
+    },
+    "6": {
+        "name": "JOS",
+        "chapters": 24
+    },
+    "7": {
+        "name": "JDG",
+        "chapters": 21
+    },
+    "8": {
+        "name": "RUT",
+        "chapters": 4
+    },
+    "9": {
+        "name": "1SA",
+        "chapters": 31
+    },
+    "10": {
+        "name": "2SA",
+        "chapters": 24
+    },
+    "11": {
+        "name": "1KI",
+        "chapters": 22
+    },
+    "12": {
+        "name": "2KI",
+        "chapters": 24
+    },
+    "13": {
+        "name": "1CH",
+        "chapters": 29
+    },
+    "14": {
+        "name": "2CH",
+        "chapters": 36
+    },
+    "15": {
+        "name": "EZR",
+        "chapters": 10
+    },
+    "16": {
+        "name": "NEH",
+        "chapters": 13
+    },
+    "17": {
+        "name": "EST",
+        "chapters": 10
+    },
+    "18": {
+        "name": "JOB",
+        "chapters": 42
+    },
+    "19": {
+        "name": "PSA",
+        "chapters": 150
+    },
+    "20": {
+        "name": "PRO",
+        "chapters": 31
+    },
+    "21": {
+        "name": "ECC",
+        "chapters": 12
+    },
+    "22": {
+        "name": "SNG",
+        "chapters": 8
+    },
+    "23": {
+        "name": "ISA",
+        "chapters": 66
+    },
+    "24": {
+        "name": "JER",
+        "chapters": 52
+    },
+    "25": {
+        "name": "LAM",
+        "chapters": 5
+    },
+    "26": {
+        "name": "EZK",
+        "chapters": 48
+    },
+    "27": {
+        "name": "DAN",
+        "chapters": 14
+    },
+    "28": {
+        "name": "HOS",
+        "chapters": 14
+    },
+    "29": {
+        "name": "JOL",
+        "chapters": 4
+    },
+    "30": {
+        "name": "AMO",
+        "chapters": 9
+    },
+    "31": {
+        "name": "OBA",
+        "chapters": 1
+    },
+    "32": {
+        "name": "JON",
+        "chapters": 4
+    },
+    "33": {
+        "name": "MIC",
+        "chapters": 7
+    },
+    "34": {
+        "name": "NAM",
+        "chapters": 3
+    },
+    "35": {
+        "name": "HAB",
+        "chapters": 3
+    },
+    "36": {
+        "name": "ZEP",
+        "chapters": 3
+    },
+    "37": {
+        "name": "HAG",
+        "chapters": 2
+    },
+    "38": {
+        "name": "ZEC",
+        "chapters": 14
+    },
+    "39": {
+        "name": "MAL",
+        "chapters": 4
+    },
+    "Books": 39
+}
