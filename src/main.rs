@@ -1,12 +1,15 @@
+use pbr::{ProgressBar, Units};
+use rayon::prelude::*;
 use regex::Regex;
 use serde_json;
-use serde_json::Value;
 use std::fs;
 use std::fs::File;
 use std::io;
 use std::io::prelude::*;
+use std::io::stderr;
 use std::path::Path;
 use std::process::exit;
+use std::thread;
 
 fn main() {
     start();
@@ -100,33 +103,27 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         println!("La Biblia Textual wurde gewählt!");
         version = "BTX".to_string();
         json = btx_json;
-    }
-    else if version == "7" || version == "GNB" {
+    } else if version == "7" || version == "GNB" {
         println!("Gute Nachricht Bibel 2018 wurde gewählt!");
         version = "GNB".to_string();
         json = gnb_json;
-    }
-    else if version == "8" || version == "NEÜ" {
+    } else if version == "8" || version == "NEÜ" {
         println!("Neue Evangelistische Übersetzung wurde gewählt!");
         version = "NEÜ".to_string();
         json = neue_json;
-    }
-    else if version == "9" || version == "BB" {
+    } else if version == "9" || version == "BB" {
         println!("Basis Bibel wurde gewählt!");
         version = "BB".to_string();
         json = bb_json;
-    }
-    else if version == "10" || version == "NA28" {
-        println!("Nestle-Aland 28 wurde gewaltet!");
+    } else if version == "10" || version == "NA28" {
+        println!("Nestle-Aland 28 wurde gewählt!");
         version = "NA28".to_string();
         json = na28_json;
-    }
-    else if version == "11" || version == "BHS" {
+    } else if version == "11" || version == "BHS" {
         println!("Biblia Hebraica Stuttgartensia wurde gewählt!");
         version = "BHS".to_string();
         json = bhs_json;
-    }
-    else {
+    } else {
         println!(
             "Da keine vorhandene Bibel gewählt wurde, wurde die Einheitsübersetzung ausgewählt."
         );
@@ -139,141 +136,138 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let books = json.get("Books").expect("file should have books key");
     let books = books.to_string();
     let books: u8 = books.parse().unwrap();
-    for n in 1..&books + 1 {
-        if n % 5 == 0 {
-            booklist.push_str("\n");
-        }
-        let number = n.to_string();
-        let book = json.get(&number).expect("file should have books key");
-        let book_name = book.get("name").expect("file should have key");
-        let book_name = book_name.to_string();
-        let book_name = book_name.replace("\"", "");
-        // Generate readable List of Books
-        booklist.push_str(&number);
-        booklist.push_str(". ");
-        booklist.push_str(&book_name);
-        booklist.push_str(" | ")
-    }
-    // Show List of Books
-    println!("{}", &booklist);
-    println!("{}", "Nummer 0 für alle Bücher");
-    println!("Welches Buch möchtest du lesen? Bitte Nummer angeben.");
-    // user selects book to download
-    io::stdin()
-        .read_line(&mut book)
-        .expect("Dieses Buch kenne ich nicht!");
-    let mut v = Vec::new();
-    let book = book.trim();
-    let mut book: u8 = book.parse().expect("Es wurde keine Nummer angegeben.");
-    // fallback on wrong input
-    if book > books {
-        println!("Dieses Buch gibt es nicht. Es wird das Buch Genesis gewählt.");
-        book = 1;
-        v.push(book);
-    } else if book == 0 {
-        //    printljn!("{}", &z);
-        v = (1..books + 1).collect();
-    } else {
-        v.push(book);
-    }
-    for i in v {
-        let book = i.to_string();
-        let book = json.get(book).expect("file should have key");
-        let chapters = book.get("chapters").expect("file should have key");
+    let v: Vec<u8> = (1..books + 1).collect();
+    let mut total_chapters: i32 = 0;
+    for book in &v {
+        let chapters = json
+            .get(&book.to_string())
+            .expect("file should have key")
+            .get("chapters")
+            .expect("file should have key");
         let chapters = chapters.to_string();
-        let chapters: u8 = chapters.parse().unwrap();
-        let book = book.get("name").expect("file should have key");
-        let book = book.to_string();
-        let book = book.replace("\"", "");
-        println!("{}", &book);
-
-        println!("{}", "Dokument wird erstellt!");
-        let dateiname = format!("{version}/{book}.md");
-        let dir = format!("{version}");
-        if Path::new(&dir).exists() != true {
-            fs::create_dir(&dir)?;
-        }
-        let mut file =
-            File::create(&dateiname).expect("Datei konnte leider nicht erstellt werden.");
-        let mut ausgabe = " ".to_string();
-        for n in 1..chapters + 1 {
-            let mut url = String::new();
-            let mut urlfin = String::new();
-            let mut text = String::new();
-            let replace_specialtags = Regex::new(r#"<span class="d-sr-only"></span>"#).unwrap();
-            let replace_tags = Regex::new(r#"<.*?>"#).unwrap();
-            let replace_linebreaks = Regex::new(r#"\n"#).unwrap();
-            let replace_footnotes = Regex::new(r#".[0-9]]"#).unwrap();
-            if version == "BB" || version == "NA28" || version == "BHS" {
-                url = "https://www.die-bibel.de/bibel/".to_string();
-                urlfin = format!("{url}{version}/{book}.{n}");
-                let ergebnis: String = reqwest::get(urlfin).await?.text().await?.to_string();
-                let ergebnis: Vec<&str> = ergebnis
-                    .split("<ibep-bible-chapter _nghost-ibep-main-c4145848528>")
-                    .collect();
-                let ergebnis: Vec<&str> = ergebnis[1].split("</ibep-bible-chapter>").collect();
-                text = ergebnis[0].to_string();
-                text = text.replace("<br>", "\n");
-                text = text.replace("<bible-v", "\n<bible-v");
-                text = text.replace("</bible-v>", " </bible-v>");
-                text = text.replace("</ibep-bible-passage>", " </ibep-bible-passage>");
-                text = replace_specialtags.replace_all(&text, "").to_string();
-                text = replace_tags.replace_all(&text, "").to_string();
-                text = replace_linebreaks.replace_all(&text, "\n").to_string();
-                text = replace_footnotes.replace_all(&text, "").to_string();
-                text = text.trim().to_string();
-            } else {
-                url = "https://www.bibleserver.com/".to_string();
-                urlfin = format!("{url}{version}/{book}{n}");
-                let ergebnis: String = reqwest::get(urlfin).await?.text().await?.to_string();
-                let ergebnis: Vec<&str> = ergebnis
-                    .split("<header style=\"grid-row:1 / 2;\">")
-                    .collect();
-                let ergebnis: Vec<&str> = ergebnis[1].split("<footer ").collect();
-                text = ergebnis[0].to_string();
-                text = replace_specialtags.replace_all(&text, "").to_string();
-                text = text.replace("</h1>", "</h1>++break++");
-                text = text.replace("</h2>", "</h2>++break++");
-                text = text.replace("</h3>", "<h3>++break++");
-                text = replace_tags.replace_all(&text, "").to_string();
-                text = replace_linebreaks.replace_all(&text, "").to_string();
-                text = replace_footnotes.replace_all(&text, "").to_string();
-                text = text.trim().to_string();
-                text = text.replace("\u{2}", "\n");
-                text = text.replace("\u{3}", "");
-                text = text.replace(" &#x1;", "\n## ");
-                text = text.replace("&#x1;", "\n## ");
-                text = text.replace("++break++", "\n");
-                text = text.trim().to_string();
-
-            }
-            
-            println!("Kapitel {} gecrawled.", &n);
-
-            let replace_verse_start = Regex::new(r"\n(?P<v>\d+)").unwrap();
-            let chapter_text = replace_verse_start
-                .replace_all(&text, "\n\n ###### $v \n\n")
-                .to_string();
-            let chapter_file = format!("{version}/{book}/{book} {n}.md");
-            let dirchapter = format!("{version}/{book}");
-            if Path::new(&dirchapter).exists() != true {
-                fs::create_dir(&dirchapter)?;
-            }
-            let mut chapterfile =
-                File::create(&chapter_file).expect("Datei konnte leider nicht erstellt werden.");
-            chapterfile
-                .write_all(&chapter_text.as_bytes())
-                .expect("Inhalt konnte leider nicht geschrieben werden!");
-
-            ausgabe.push_str(&text);
-            ausgabe.push_str("\n");
-        }
-        file.write_all(ausgabe.as_bytes())
-            .expect("Inhalt konnte leider nicht geschrieben werden!");
-        println!(
-            "Das Dokument {}.md wurde im Ordner {} erstellt.",
-            &book, &version
-        );
+        let chapters: i32 = chapters.parse().unwrap();
+        total_chapters = total_chapters
+            .checked_add(chapters)
+            .expect("Overflow occurred while adding chapters");
     }
+    let pb = std::sync::Arc::new(std::sync::Mutex::new(ProgressBar::new(
+        total_chapters as u64,
+    )));
+    v.par_iter().for_each(|&i| {
+        let pb = pb.clone();
+        let mut pb = pb.lock().unwrap();
+        let json = json.clone();
+        let version = version.clone();
+        tokio::runtime::Runtime::new()
+            .unwrap()
+            .block_on(async move {
+                let book = i.to_string();
+                let book = json.get(&book).expect("file should have key");
+                let chapters = book.get("chapters").expect("file should have key");
+                let chapters = chapters.to_string();
+                let chapters: u8 = chapters.parse().unwrap();
+                let book = book.get("name").expect("file should have key");
+                let book = book.to_string();
+                let book = book.replace("\"", "");
+                let dateiname = format!("{version}/{book}.md");
+                let dir = format!("{version}");
+                if !Path::new(&dir).exists() {
+                    fs::create_dir(&dir).unwrap();
+                }
+                let mut file =
+                    File::create(&dateiname).expect("Datei konnte leider nicht erstellt werden.");
+                let mut ausgabe = " ".to_string();
+                for n in 1..chapters + 1 {
+                    let mut url = String::new();
+                    let mut urlfin = String::new();
+                    let mut text = String::new();
+                    let replace_specialtags =
+                        Regex::new(r#"<span class="d-sr-only"></span>"#).unwrap();
+                    let replace_tags = Regex::new(r#"<.*?>"#).unwrap();
+                    let replace_linebreaks = Regex::new(r#"\n"#).unwrap();
+                    let replace_footnotes = Regex::new(r#".[0-9]]"#).unwrap();
+                    if version == "BB" || version == "NA28" || version == "BHS" {
+                        url = "https://www.die-bibel.de/bibel/".to_string();
+                        urlfin = format!("{url}{version}/{book}.{n}");
+                        let ergebnis: String = reqwest::get(&urlfin)
+                            .await
+                            .unwrap()
+                            .text()
+                            .await
+                            .unwrap()
+                            .to_string();
+                        let ergebnis: Vec<&str> = ergebnis
+                            .split("<ibep-bible-chapter _nghost-ibep-main-c4145848528>")
+                            .collect();
+                        let ergebnis: Vec<&str> =
+                            ergebnis[1].split("</ibep-bible-chapter>").collect();
+                        text = ergebnis[0].to_string();
+                        text = text.replace("<br>", "\n");
+                        text = text.replace("<bible-v", "\n<bible-v");
+                        text = text.replace("</bible-v>", " </bible-v>");
+                        text = text.replace("</ibep-bible-passage>", " </ibep-bible-passage>");
+                        text = replace_specialtags.replace_all(&text, "").to_string();
+                        text = replace_tags.replace_all(&text, "").to_string();
+                        text = replace_linebreaks.replace_all(&text, "\n").to_string();
+                        text = replace_footnotes.replace_all(&text, "").to_string();
+                        text = text.trim().to_string();
+                    } else {
+                        url = "https://www.bibleserver.com/".to_string();
+                        urlfin = format!("{url}{version}/{book}{n}");
+                        let ergebnis: String = reqwest::get(&urlfin)
+                            .await
+                            .unwrap()
+                            .text()
+                            .await
+                            .unwrap()
+                            .to_string();
+                        let ergebnis: Vec<&str> = ergebnis
+                            .split("<header style=\"grid-row:1 / 2;\">")
+                            .collect();
+                        let ergebnis: Vec<&str> = ergebnis[1].split("<footer ").collect();
+                        text = ergebnis[0].to_string();
+                        text = replace_specialtags.replace_all(&text, "").to_string();
+                        text = text.replace("</h1>", "</h1>++break++");
+                        text = text.replace("</h2>", "</h2>++break++");
+                        text = text.replace("</h3>", "<h3>++break++");
+                        text = replace_tags.replace_all(&text, "").to_string();
+                        text = replace_linebreaks.replace_all(&text, "").to_string();
+                        text = replace_footnotes.replace_all(&text, "").to_string();
+                        text = text.trim().to_string();
+                        text = text.replace("\u{2}", "\n");
+                        text = text.replace("\u{3}", "");
+                        text = text.replace(" &#x1;", "\n## ");
+                        text = text.replace("&#x1;", "\n## ");
+                        text = text.replace("++break++", "\n");
+                        text = text.trim().to_string();
+                    }
+
+                    let replace_verse_start = Regex::new(r"\n(?P<v>\d+)").unwrap();
+                    let chapter_text = replace_verse_start
+                        .replace_all(&text, "\n\n ###### $v \n\n")
+                        .to_string();
+                    let chapter_file = format!("{version}/{book}/{book} {n}.md");
+                    pb.set_width(Some(66));
+                    pb.message(format!("{} ", book).as_str());
+                    pb.inc();
+                    let dirchapter = format!("{version}/{book}");
+                    if !Path::new(&dirchapter).exists() {
+                        fs::create_dir(&dirchapter).unwrap();
+                    }
+                    let mut chapterfile = File::create(&chapter_file)
+                        .expect("Datei konnte leider nicht erstellt werden.");
+                    chapterfile
+                        .write_all(&chapter_text.as_bytes())
+                        .expect("Inhalt konnte leider nicht geschrieben werden!");
+
+                    ausgabe.push_str(&text);
+                    ausgabe.push_str("\n");
+                }
+                file.write_all(ausgabe.as_bytes())
+                    .expect("Inhalt konnte leider nicht geschrieben werden!");
+            });
+    });
+    let mut pb = pb.lock().unwrap();
+    pb.finish();
     Ok(())
 }
