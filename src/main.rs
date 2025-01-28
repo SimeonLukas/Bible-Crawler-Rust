@@ -191,6 +191,7 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let pb = std::sync::Arc::new(std::sync::Mutex::new(ProgressBar::new(
         total_chapters as u64,
     )));
+    rayon::ThreadPoolBuilder::new().num_threads(5).build_global().unwrap();
     v.par_iter().for_each(|&i| {
         let pb = pb.clone();
         let mut pb = pb.lock().unwrap();
