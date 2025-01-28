@@ -14,7 +14,7 @@ use std::thread;
 fn main() {
     start();
     let mut entscheidung = String::new();
-    println!("Nochmal? J/N");
+    println!("\nNochmal? J/N");
     io::stdin()
         .read_line(&mut entscheidung)
         .expect("Diese Version kenne ich nicht!");
@@ -30,7 +30,9 @@ fn main() {
 
 #[tokio::main]
 async fn start() -> Result<(), Box<dyn std::error::Error>> {
-    // Include all bible .json files
+    // Füge .json für Namenskonventionen ein
+    let names_json = include_str!("names.json").to_string();
+    // Füge .json der Bibelübersetungen hinzu
     let eu_json = include_str!("EU.json").to_string();
     let lut_json = include_str!("LUT.json").to_string();
     let elb_json = include_str!("ELB.json").to_string();
@@ -44,7 +46,6 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let bhs_json = include_str!("BHS.json").to_string();
 
     println!("Welche Bibel soll es sein?");
-    // Print all available bibles in a table
     println!("Übersetzungen von bibleserver.com:");
     println!(
         "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
@@ -67,16 +68,12 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         "10. Nestle-Aland 28 (NA28)",
         "11. Biblia Hebraica Stuttgartensia (BHS)"
     );
-
-    // generate mutable variables
     let mut json = String::new();
     let mut version = String::new();
     let mut book = String::new();
-    // user selects bible version
     io::stdin()
         .read_line(&mut version)
         .expect("Diese Version kenne ich nicht!");
-    // clean up input
     version = version.trim().to_string();
 
     if version == "1" || version == "EU" {
@@ -131,8 +128,49 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         json = eu_json;
     }
 
+    println!("\nWelche Namenskonvention soll verwendet werden?");
+    println!("1. Abkürzungen Großbuchstaben (GEN, EXO, LEV, NUM, DEU, etc.)");
+    println!("2. Abkürzungen Groß und Kleinbuchstaben  (Gen, Exo, Lev, Num, Deu, etc.)");
+    println!("3. Deutsch typisch evangelisch (1. Mose, 2. Mose, 3. Mose, 4. Mose, 5. Mose, etc.)");
+    println!(
+        "4. Deutsch typisch katholisch (Genesis, Exodus, Levitikus, Numeri, Deuteronomium, etc.)"
+    );
+    println!("5. Englisch (Genesis, Exodus, Leviticus, Numbers, Deuteronomy, etc.)");
+    println!("6. Latein (Genesis, Exodus, Leviticus, Numeri, Deuteronomium, etc.)");
+
+    let mut name = String::new();
+    io::stdin()
+        .read_line(&mut name)
+        .expect("Diese Namenskonvention kenne ich nicht!");
+    // clean up input
+    name = name.trim().to_string();
+    if name == "1" {
+        name = "Abkürzungen1".to_string();
+        println!("Abkürzungen wurden gewählt.");
+    } else if name == "2" {
+        name = "Abkürzungen2".to_string();
+        println!("Abkürzungen wurden gewählt.");
+    } else if name == "3" {
+        name = "Deutsch1".to_string();
+        println!("Deutsch evang. wurde gewählt.");
+    } else if name == "4" {
+        name = "Deutsch2".to_string();
+        println!("Deutsch kath. wurde gewählt.");
+    } else if name == "5" {
+        name = "Englisch".to_string();
+        println!("Englisch wurde gewählt.");
+    } else if name == "6" {
+        name = "Latein".to_string();
+        println!("Latein wurde gewählt.");
+    } else {
+        name = "Abkürzungen".to_string();
+        println!("Da keine Namenskonvention gewählt wurde, wurden Abkürzungen ausgewählt.");
+    }
+    let nameconvention = name.clone();
     let mut booklist = "".to_string();
     let json: serde_json::Value = serde_json::from_str(&json).expect("file should be proper JSON");
+    let namesjson: serde_json::Value =
+        serde_json::from_str(&names_json).expect("file should be proper JSON");
     let books = json.get("Books").expect("file should have books key");
     let books = books.to_string();
     let books: u8 = books.parse().unwrap();
@@ -157,6 +195,8 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
         let pb = pb.clone();
         let mut pb = pb.lock().unwrap();
         let json = json.clone();
+        let namesjson = namesjson.clone();
+        let nameconvention = nameconvention.clone();
         let version = version.clone();
         tokio::runtime::Runtime::new()
             .unwrap()
@@ -168,8 +208,28 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
                 let chapters: u8 = chapters.parse().unwrap();
                 let book = book.get("name").expect("file should have key");
                 let book = book.to_string();
-                let book = book.replace("\"", "");
-                let dateiname = format!("{version}/{book}.md");
+                let mut book = book.replace("\"", "");
+                let mut bookname = book.clone();
+                for book_info in namesjson.as_array().unwrap() {
+                    if book_info["id"].as_str().unwrap() == &bookname
+                        || book_info["name"].as_str().unwrap() == &bookname
+                    {
+                        if nameconvention == "Abkürzungen1" {
+                            bookname = book_info["id"].as_str().unwrap().to_string();
+                        } else if nameconvention == "Abkürzungen2" {
+                            bookname = book_info["id2"].as_str().unwrap().to_string();
+                        } else if nameconvention == "Deutsch1" {
+                            bookname = book_info["german_evang"].as_str().unwrap().to_string();
+                        } else if nameconvention == "Deutsch2" {
+                            bookname = book_info["german_kath"].as_str().unwrap().to_string();
+                        } else if nameconvention == "Englisch" {
+                            bookname = book_info["english"].as_str().unwrap().to_string();
+                        } else if nameconvention == "Latein" {
+                            bookname = book_info["latin"].as_str().unwrap().to_string();
+                        }
+                    }
+                }
+                let dateiname = format!("{version}/{bookname}.md");
                 let dir = format!("{version}");
                 if !Path::new(&dir).exists() {
                     fs::create_dir(&dir).unwrap();
@@ -246,11 +306,11 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
                     let chapter_text = replace_verse_start
                         .replace_all(&text, "\n\n ###### $v \n\n")
                         .to_string();
-                    let chapter_file = format!("{version}/{book}/{book} {n}.md");
+                    let chapter_file = format!("{version}/{bookname}/{bookname} {n}.md");
                     pb.set_width(Some(66));
-                    pb.message(format!("{} ", book).as_str());
+                    pb.message(format!("{} ", bookname).as_str());
                     pb.inc();
-                    let dirchapter = format!("{version}/{book}");
+                    let dirchapter = format!("{version}/{bookname}");
                     if !Path::new(&dirchapter).exists() {
                         fs::create_dir(&dirchapter).unwrap();
                     }

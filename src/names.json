@@ -1,0 +1,658 @@
+[{
+            "id": "GEN",
+            "id2":"Gen",
+            "name": "Genesis",
+            "german_evang": "1. Mose",
+            "german_kath": "Genesis",
+            "latin": "Genesis",
+            "english": "Genesis"
+        },
+        {
+            "id": "EXO",
+            "id2":"Exo",
+            "name": "Exodus",
+            "german_evang": "2. Mose",
+            "german_kath": "Exodus",
+            "latin": "Exodus",
+            "english": "Exodus"
+        },
+        {
+            "id": "LEV",
+            "id2":"Lev",
+            "name": "Leviticus",
+            "german_evang": "3. Mose",
+            "german_kath": "Levitikus",
+            "latin": "Leviticus",
+            "english": "Leviticus"
+        },
+        {
+            "id": "NUM",
+            "id2":"Num",
+            "name": "Numbers",
+            "german_evang": "4. Mose",
+            "german_kath": "Numeri",
+            "latin": "Numeri",
+            "english": "Numbers"
+        },
+        {
+            "id": "DEU",
+            "id2":"Deu",
+            "name": "Deuteronomy",
+            "german_evang": "5. Mose",
+            "german_kath": "Deuteronomium",
+            "latin": "Deuteronomium",
+            "english": "Deuteronomy"
+        },
+        {
+            "id": "JOS",
+            "id2":"Jos",
+            "name": "Joshua",
+            "german_evang": "Josua",
+            "german_kath": "Josua",
+            "latin": "Iosue",
+            "english": "Joshua"
+        },
+        {
+            "id": "JDG",
+            "id2":"Jdg",
+            "name": "Judges",
+            "german_evang": "Richter",
+            "german_kath": "Richter",
+            "latin": "Iudices",
+            "english": "Judges"
+        },
+        {
+            "id": "RUT",
+            "id2":"Rut",
+            "name": "Ruth",
+            "german_evang": "Rut",
+            "german_kath": "Rut",
+            "latin": "Ruth",
+            "english": "Ruth"
+        },
+        {
+            "id": "1SA",
+            "id2":"1Sa",
+            "name": "1 Samuel",
+            "german_evang": "1. Samuel",
+            "german_kath": "1. Samuel",
+            "latin": "1 Samuelis",
+            "english": "1 Samuel"
+        },
+        {
+            "id": "2SA",
+            "id2":"2Sa",
+            "name": "2 Samuel",
+            "german_evang": "2. Samuel",
+            "german_kath": "2. Samuel",
+            "latin": "2 Samuelis",
+            "english": "2 Samuel"
+        },
+        {
+            "id": "1KI",
+            "id2":"1Ki",
+            "name": "1 Kings",
+            "german_evang": "1. Könige",
+            "german_kath": "1. Könige",
+            "latin": "1 Regum",
+            "english": "1 Kings"
+        },
+        {
+            "id": "2KI",
+            "id2":"2Ki",
+            "name": "2 Kings",
+            "german_evang": "2. Könige",
+            "german_kath": "2. Könige",
+            "latin": "2 Regum",
+            "english": "2 Kings"
+        },
+        {
+            "id": "1CH",
+            "id2":"1Ch",
+            "name": "1 Chronicles",
+            "german_evang": "1. Chronik",
+            "german_kath": "1. Chronik",
+            "latin": "1 Paralipomenon",
+            "english": "1 Chronicles"
+        },
+        {
+            "id": "2CH",
+            "id2":"2Ch",
+            "name": "2 Chronicles",
+            "german_evang": "2. Chronik",
+            "german_kath": "2. Chronik",
+            "latin": "2 Paralipomenon",
+            "english": "2 Chronicles"
+        },
+        {
+            "id": "EZR",
+            "id2":"Ezr",
+            "name": "Ezra",
+            "german_evang": "Esra",
+            "german_kath": "Esra",
+            "latin": "Esdras",
+            "english": "Ezra"
+        },
+        {
+            "id": "NEH",
+            "id2":"Neh",
+            "name": "Nehemiah",
+            "german_evang": "Nehemia",
+            "german_kath": "Nehemia",
+            "latin": "Nehemias",
+            "english": "Nehemiah"
+        },
+        {
+            "id": "EST",
+            "id2":"Est",
+            "name": "Esther",
+            "german_evang": "Ester",
+            "german_kath": "Ester",
+            "latin": "Esther",
+            "english": "Esther"
+        },
+        {
+            "id": "JOB",
+            "id2":"Job",
+            "name": "Job",
+            "german_evang": "Hiob",
+            "german_kath": "Ijob",
+            "latin": "Iob",
+            "english": "Job"
+        },
+        {
+            "id": "PSA",
+            "id2":"Psa",
+            "name": "Psalms",
+            "german_evang": "Psalmen",
+            "german_kath": "Psalmen",
+            "latin": "Psalmi",
+            "english": "Psalms"
+        },
+        {
+            "id": "PRO",
+            "id2":"Pro",
+            "name": "Proverbs",
+            "german_evang": "Sprüche",
+            "german_kath": "Sprüche",
+            "latin": "Proverbia",
+            "english": "Proverbs"
+        },
+        {
+            "id": "ECC",
+            "id2":"Ecc",
+            "name": "Ecclesiastes",
+            "german_evang": "Prediger",
+            "german_kath": "Kohelet",
+            "latin": "Ecclesiastes",
+            "english": "Ecclesiastes"
+        },
+        {
+            "id": "SNG",
+            "id2":"Sng",
+            "name": "Song of Solomon",
+            "german_evang": "Hohelied",
+            "german_kath": "Hohelied",
+            "latin": "Canticum Canticorum",
+            "english": "Song of Solomon"
+        },
+        {
+            "id": "ISA",
+            "id2":"Isa",
+            "name": "Isaiah",
+            "german_evang": "Jesaja",
+            "german_kath": "Jesaja",
+            "latin": "Isaias",
+            "english": "Isaiah"
+        },
+        {
+            "id": "JER",
+            "id2":"Jer",
+            "name": "Jeremiah",
+            "german_evang": "Jeremia",
+            "german_kath": "Jeremia",
+            "latin": "Ieremias",
+            "english": "Jeremiah"
+        },
+        {
+            "id": "LAM",
+            "id2":"Lam",
+            "name": "Lamentations",
+            "german_evang": "Klagelieder",
+            "german_kath": "Klagelieder",
+            "latin": "Lamentationes",
+            "english": "Lamentations"
+        },
+        {
+            "id": "EZK",
+            "id2":"Ezk",
+            "name": "Ezekiel",
+            "german_evang": "Hesekiel",
+            "german_kath": "Ezechiel",
+            "latin": "Ezechiel",
+            "english": "Ezekiel"
+        },
+        {
+            "id": "DAN",
+            "id2":"Dan",
+            "name": "Daniel",
+            "german_evang": "Daniel",
+            "german_kath": "Daniel",
+            "latin": "Daniel",
+            "english": "Daniel"
+        },
+        {
+            "id": "HOS",
+            "id2":"Hos",
+            "name": "Hosea",
+            "german_evang": "Hosea",
+            "german_kath": "Hosea",
+            "latin": "Osee",
+            "english": "Hosea"
+        },
+        {
+            "id": "JOL",
+            "id2":"Jol",
+            "name": "Joel",
+            "german_evang": "Joel",
+            "german_kath": "Joel",
+            "latin": "Ioel",
+            "english": "Joel"
+        },
+        {
+            "id": "AMO",
+            "id2":"Amo",
+            "name": "Amos",
+            "german_evang": "Amos",
+            "german_kath": "Amos",
+            "latin": "Amos",
+            "english": "Amos"
+        },
+        {
+            "id": "OBA",
+            "name": "Obadiah",
+            "german_evang": "Obadja",
+            "german_kath": "Obadja",
+            "latin": "Abdias",
+            "english": "Obadiah"
+        },
+        {
+            "id": "JON",
+            "id2":"Jon",
+            "name": "Jonah",
+            "german_evang": "Jona",
+            "german_kath": "Jona",
+            "latin": "Ionas",
+            "english": "Jonah"
+        },
+        {
+            "id": "MIC",
+            "id2":"Mic",
+            "name": "Micah",
+            "german_evang": "Micha",
+            "german_kath": "Micha",
+            "latin": "Michaeas",
+            "english": "Micah"
+        },
+        {
+            "id": "NAM",
+            "id2":"Nam",
+            "name": "Nahum",
+            "german_evang": "Nahum",
+            "german_kath": "Nahum",
+            "latin": "Nahum",
+            "english": "Nahum"
+        },
+        {
+            "id": "HAB",
+            "id2":"Hab",
+            "name": "Habakkuk",
+            "german_evang": "Habakuk",
+            "german_kath": "Habakuk",
+            "latin": "Habacuc",
+            "english": "Habakkuk"
+        },
+        {
+            "id": "ZEP",
+            "id2":"Zep",
+            "name": "Zephaniah",
+            "german_evang": "Zefanja",
+            "german_kath": "Zefanja",
+            "latin": "Sophonias",
+            "english": "Zephaniah"
+        },
+        {
+            "id": "HAG",
+            "id2":"Hag",
+            "name": "Haggai",
+            "german_evang": "Haggai",
+            "german_kath": "Haggai",
+            "latin": "Aggaeus",
+            "english": "Haggai"
+        },
+        {
+            "id": "ZEC",
+            "id2":"Zec",
+            "name": "Zechariah",
+            "german_evang": "Sacharja",
+            "german_kath": "Sacharja",
+            "latin": "Zacharias",
+            "english": "Zechariah"
+        },
+        {
+            "id": "MAL",
+            "id2":"Mal",
+            "name": "Malachi",
+            "german_evang": "Maleachi",
+            "german_kath": "Maleachi",
+            "latin": "Malachias",
+            "english": "Malachi"
+        },
+        {
+            "id": "MAT",
+            "id2":"Mat",
+            "name": "Matthew",
+            "german_evang": "Matthäus",
+            "german_kath": "Matthäus",
+            "latin": "Matthaeus",
+            "english": "Matthew"
+        },
+        {
+            "id": "MRK",
+            "id2":"Mrk",
+            "name": "Mark",
+            "german_evang": "Markus",
+            "german_kath": "Markus",
+            "latin": "Marcus",
+            "english": "Mark"
+        },
+        {
+            "id": "LUK",
+            "id2":"Luk",
+            "name": "Luke",
+            "german_evang": "Lukas",
+            "german_kath": "Lukas",
+            "latin": "Lucas",
+            "english": "Luke"
+        },
+        {
+            "id": "JHN",
+            "id2":"Jhn",
+            "name": "John",
+            "german_evang": "Johannes",
+            "german_kath": "Johannes",
+            "latin": "Ioannes",
+            "english": "John"
+        },
+        {
+            "id": "ACT",
+            "id2":"Act",
+            "name": "Acts",
+            "german_evang": "Apostelgeschichte",
+            "german_kath": "Apostelgeschichte",
+            "latin": "Actus Apostolorum",
+            "english": "Acts"
+        },
+        {
+            "id": "ROM",
+            "id2":"Rom",
+            "name": "Romans",
+            "german_evang": "Römer",
+            "german_kath": "Römer",
+            "latin": "Ad Romanos",
+            "english": "Romans"
+        },
+        {
+            "id": "1CO",
+            "id2":"1Co",
+            "name": "1 Corinthians",
+            "german_evang": "1. Korinther",
+            "german_kath": "1. Korinther",
+            "latin": "1 ad Corinthios",
+            "english": "1 Corinthians"
+        },
+        {
+            "id": "2CO",
+            "id2":"2Co",
+            "name": "2 Corinthians",
+            "german_evang": "2. Korinther",
+            "german_kath": "2. Korinther",
+            "latin": "2 ad Corinthios",
+            "english": "2 Corinthians"
+        },
+        {
+            "id": "GAL",
+            "id2":"Gal",
+            "name": "Galatians",
+            "german_evang": "Galater",
+            "german_kath": "Galater",
+            "latin": "Ad Galatas",
+            "english": "Galatians"
+        },
+        {
+            "id": "EPH",
+            "id2":"Eph",
+            "name": "Ephesians",
+            "german_evang": "Epheser",
+            "german_kath": "Epheser",
+            "latin": "Ad Ephesios",
+            "english": "Ephesians"
+        },
+        {
+            "id": "PHP",
+            "id2":"Php",
+            "name": "Philippians",
+            "german_evang": "Philipper",
+            "german_kath": "Philipper",
+            "latin": "Ad Philippenses",
+            "english": "Philippians"
+        },
+        {
+            "id": "COL",
+            "id2":"Col",
+            "name": "Colossians",
+            "german_evang": "Kolosser",
+            "german_kath": "Kolosser",
+            "latin": "Ad Colossenses",
+            "english": "Colossians"
+        },
+        {
+            "id": "1TH",
+            "id2":"1Th",
+            "name": "1 Thessalonians",
+            "german_evang": "1. Thessalonicher",
+            "german_kath": "1. Thessalonicher",
+            "latin": "1 ad Thessalonicenses",
+            "english": "1 Thessalonians"
+        },
+        {
+            "id": "2TH",
+            "id2":"2Th",
+            "name": "2 Thessalonians",
+            "german_evang": "2. Thessalonicher",
+            "german_kath": "2. Thessalonicher",
+            "latin": "2 ad Thessalonicenses",
+            "english": "2 Thessalonians"
+        },
+        {
+            "id": "1TI",
+            "id2":"1Ti",
+            "name": "1 Timothy",
+            "german_evang": "1. Timotheus",
+            "german_kath": "1. Timotheus",
+            "latin": "1 ad Timotheum",
+            "english": "1 Timothy"
+        },
+        {
+            "id": "2TI",
+            "id2":"2Ti",
+            "name": "2 Timothy",
+            "german_evang": "2. Timotheus",
+            "german_kath": "2. Timotheus",
+            "latin": "2 ad Timotheum",
+            "english": "2 Timothy"
+        },
+        {
+            "id": "TIT",
+            "id2":"Tit",
+            "name": "Titus",
+            "german_evang": "Titus",
+            "german_kath": "Titus",
+            "latin": "Ad Titum",
+            "english": "Titus"
+        },
+        {
+            "id": "PHM",
+            "id2":"Phm",
+            "name": "Philemon",
+            "german_evang": "Philemon",
+            "german_kath": "Philemon",
+            "latin": "Ad Philemonem",
+            "english": "Philemon"
+        },
+        {
+            "id": "HEB",
+            "id2":"Heb",
+            "name": "Hebrews",
+            "german_evang": "Hebräer",
+            "german_kath": "Hebräer",
+            "latin": "Ad Hebraeos",
+            "english": "Hebrews"
+        },
+        {
+            "id": "JAS",
+            "id2":"Jas",
+            "name": "James",
+            "german_evang": "Jakobus",
+            "german_kath": "Jakobus",
+            "latin": "Iacobus",
+            "english": "James"
+        },
+        {
+            "id": "1PE",
+            "id2":"1Pe",
+            "name": "1 Peter",
+            "german_evang": "1. Petrus",
+            "german_kath": "1. Petrus",
+            "latin": "1 Petri",
+            "english": "1 Peter"
+        },
+        {
+            "id": "2PE",
+            "id2":"2Pe",
+            "name": "2 Peter",
+            "german_evang": "2. Petrus",
+            "german_kath": "2. Petrus",
+            "latin": "2 Petri",
+            "english": "2 Peter"
+        },
+        {
+            "id": "1JN",
+            "id2":"1Jn",
+            "name": "1 John",
+            "german_evang": "1. Johannes",
+            "german_kath": "1. Johannes",
+            "latin": "1 Ioannis",
+            "english": "1 John"
+        },
+        {
+            "id": "2JN",
+            "id2":"2Jn",
+            "name": "2 John",
+            "german_evang": "2. Johannes",
+            "german_kath": "2. Johannes",
+            "latin": "2 Ioannis",
+            "english": "2 John"
+        },
+        {
+            "id": "3JN",
+            "id2":"3Jn",
+            "name": "3 John",
+            "german_evang": "3. Johannes",
+            "german_kath": "3. Johannes",
+            "latin": "3 Ioannis",
+            "english": "3 John"
+        },
+        {
+            "id": "JUD",
+            "id2":"Jud",
+            "name": "Jude",
+            "german_evang": "Judas",
+            "german_kath": "Judas",
+            "latin": "Iudas",
+            "english": "Jude"
+        },
+        {
+            "id": "REV",
+            "id2":"Rev",
+            "name": "Revelation",
+            "german_evang": "Offenbarung",
+            "german_kath": "Offenbarung",
+            "latin": "Apocalypsis",
+            "english": "Revelation"
+        },
+        {
+            "id": "TOB",
+            "id2":"Tob",
+            "name": "Tobit",
+            "german_evang": "Tobias",
+            "german_kath": "Tobit",
+            "latin": "Tobit",
+            "english": "Tobit"
+        },
+        {
+            "id": "JDT",
+            "id2":"Jdt",
+            "name": "Judith",
+            "german_evang": "Judit",
+            "german_kath": "Judit",
+            "latin": "Judith",
+            "english": "Judith"
+        },
+        {
+            "id": "WIS",
+            "id2":"Wis",
+            "name": "Wisdom of Solomon",
+            "german_evang": "Weisheit",
+            "german_kath": "Weisheit",
+            "latin": "Sapientiae",
+            "english": "Wisdom" 
+        },
+        {
+            "id": "SIR",
+            "id2":"Sir",
+            "name": "Sirach",
+            "german_evang": "Sirach",
+            "german_kath": "Sirach",
+            "latin": "Sirach",
+            "english": "Sirach"
+        },
+        {
+            "id": "BAR",
+            "id2":"Bar",
+            "name": "Baruch",
+            "german_evang": "Baruch",
+            "german_kath": "Baruch",
+            "latin": "Baruch",
+            "english": "Baruch"
+        },
+        {
+            "id": "1MA",
+            "id2":"1Ma",
+            "name": "1 Maccabees",
+            "german_evang": "1. Makkabäer",
+            "german_kath": "1. Makkabäer",
+            "latin": "1 Maccabaeorum",
+            "english": "1 Maccabees"
+        },
+        {
+            "id": "2MA",
+            "id2":"2Ma",
+            "name": "2 Maccabees",
+            "german_evang": "2. Makkabäer",
+            "german_kath": "2. Makkabäer",
+            "latin": "2 Maccabaeorum",
+            "english": "2 Maccabees"
+        }
+
+    ]
