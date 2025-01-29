@@ -12,12 +12,12 @@ use std::process::exit;
 use std::thread;
 
 fn main() {
-    rayon::ThreadPoolBuilder::new().num_threads(10).build_global().unwrap();
+    let _ = rayon::ThreadPoolBuilder::new().num_threads(10).build_global().unwrap();
     crawler();
 }
 
 fn crawler() {
-    start();
+    let _ = start();
     let mut entscheidung = String::new();
     println!("\nNochmal? J/N");
     io::stdin()
@@ -27,6 +27,7 @@ fn crawler() {
     entscheidung = entscheidung.trim().to_string();
 
     if entscheidung == "N" || entscheidung == "n" {
+        // No need to shutdown the global thread pool
         exit(1);
     } else {
         crawler();
