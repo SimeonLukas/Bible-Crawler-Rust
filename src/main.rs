@@ -1,4 +1,4 @@
-use pbr::{ProgressBar, Units};
+use indicatif::{MultiProgress, ProgressBar, ProgressStyle};
 use rayon::prelude::*;
 use regex::Regex;
 use serde_json;
@@ -6,13 +6,12 @@ use std::fs;
 use std::fs::File;
 use std::io;
 use std::io::prelude::*;
-use std::io::stderr;
 use std::path::Path;
 use std::process::exit;
-use std::thread;
+use std::sync::{Arc, Mutex};
+use tokio::runtime::Runtime;
 
 fn main() {
-    let _ = rayon::ThreadPoolBuilder::new().num_threads(10).build_global().unwrap();
     crawler();
 }
 
@@ -194,146 +193,147 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
             .checked_add(chapters)
             .expect("Overflow occurred while adding chapters");
     }
-    let pb = std::sync::Arc::new(std::sync::Mutex::new(ProgressBar::new(
-        total_chapters as u64,
-    )));
+    let pb = Arc::new(Mutex::new(ProgressBar::new(total_chapters as u64)));
+    pb.lock().unwrap().set_style(
+        ProgressStyle::default_bar()
+            .template("{bar:40.cyan/blue} {pos}/{len} ({eta}) {elapsed_precise} {msg}")
+            .unwrap(),
+    );
     v.par_iter().for_each(|&i| {
         let pb = pb.clone();
-        let mut pb = pb.lock().expect("Could not lock progress bar");
         let json = json.clone();
         let namesjson = namesjson.clone();
         let nameconvention = nameconvention.clone();
         let version = version.clone();
-        tokio::runtime::Runtime::new()
-            .unwrap()
-            .block_on(async move {
-                let book = i.to_string();
-                let book = json.get(&book).expect("file should have key");
-                let chapters = book.get("chapters").expect("file should have key");
-                let chapters = chapters.to_string();
-                let chapters: u8 = chapters.parse().unwrap();
-                let book = book.get("name").expect("file should have key");
-                let book = book.to_string();
-                let mut book = book.replace("\"", "");
-                let mut bookname = book.clone();
-                for book_info in namesjson.as_array().unwrap() {
-                    if book_info["id"].as_str().unwrap() == &bookname
-                        || book_info["name"].as_str().unwrap() == &bookname
-                    {
-                        if nameconvention == "Abkürzungen1" {
-                            bookname = book_info["id"].as_str().unwrap().to_string();
-                        } else if nameconvention == "Abkürzungen2" {
-                            bookname = book_info["id2"].as_str().unwrap().to_string();
-                        } else if nameconvention == "Deutsch1" {
-                            bookname = book_info["german_evang"].as_str().unwrap().to_string();
-                        } else if nameconvention == "Deutsch2" {
-                            bookname = book_info["german_kath"].as_str().unwrap().to_string();
-                        } else if nameconvention == "Englisch" {
-                            bookname = book_info["english"].as_str().unwrap().to_string();
-                        } else if nameconvention == "Latein" {
-                            bookname = book_info["latin"].as_str().unwrap().to_string();
-                        }
+        Runtime::new().unwrap().block_on(async move {
+            let book = i.to_string();
+            let book = json.get(&book).expect("file should have key");
+            let chapters = book.get("chapters").expect("file should have key");
+            let chapters = chapters.to_string();
+            let chapters: u8 = chapters.parse().unwrap();
+            let book = book.get("name").expect("file should have key");
+            let book = book.to_string();
+            let mut book = book.replace("\"", "");
+            let mut bookname = book.clone();
+            for book_info in namesjson.as_array().unwrap() {
+                if book_info["id"].as_str().unwrap() == &bookname
+                    || book_info["name"].as_str().unwrap() == &bookname
+                {
+                    if nameconvention == "Abkürzungen1" {
+                        bookname = book_info["id"].as_str().unwrap().to_string();
+                    } else if nameconvention == "Abkürzungen2" {
+                        bookname = book_info["id2"].as_str().unwrap().to_string();
+                    } else if nameconvention == "Deutsch1" {
+                        bookname = book_info["german_evang"].as_str().unwrap().to_string();
+                    } else if nameconvention == "Deutsch2" {
+                        bookname = book_info["german_kath"].as_str().unwrap().to_string();
+                    } else if nameconvention == "Englisch" {
+                        bookname = book_info["english"].as_str().unwrap().to_string();
+                    } else if nameconvention == "Latein" {
+                        bookname = book_info["latin"].as_str().unwrap().to_string();
                     }
                 }
-                let dateiname = format!("{version}/{bookname}.md");
-                let dir = format!("{version}");
-                if !Path::new(&dir).exists() {
-                    fs::create_dir(&dir).unwrap();
-                }
-                let mut file =
-                    File::create(&dateiname).expect("Datei konnte leider nicht erstellt werden.");
-                let mut ausgabe = " ".to_string();
-                for n in 1..chapters + 1 {
-                    let mut url = String::new();
-                    let mut urlfin = String::new();
-                    let mut text = String::new();
-                    let replace_specialtags =
-                        Regex::new(r#"<span class="d-sr-only"></span>"#).unwrap();
-                    let replace_tags = Regex::new(r#"<.*?>"#).unwrap();
-                    let replace_linebreaks = Regex::new(r#"\n"#).unwrap();
-                    let replace_footnotes = Regex::new(r#".[0-9]]"#).unwrap();
-                    if version == "BB" || version == "NA28" || version == "BHS" {
-                        url = "https://www.die-bibel.de/bibel/".to_string();
-                        urlfin = format!("{url}{version}/{book}.{n}");
-                        let ergebnis: String = reqwest::get(&urlfin)
-                            .await
-                            .unwrap()
-                            .text()
-                            .await
-                            .unwrap()
-                            .to_string();
-                        let ergebnis: Vec<&str> = ergebnis
-                            .split("<ibep-bible-chapter _nghost-ibep-main-c4145848528>")
-                            .collect();
-                        let ergebnis: Vec<&str> =
-                            ergebnis[1].split("</ibep-bible-chapter>").collect();
-                        text = ergebnis[0].to_string();
-                        text = text.replace("<br>", "\n");
-                        text = text.replace("<bible-v", "\n<bible-v");
-                        text = text.replace("</bible-v>", " </bible-v>");
-                        text = text.replace("</ibep-bible-passage>", " </ibep-bible-passage>");
-                        text = replace_specialtags.replace_all(&text, "").to_string();
-                        text = replace_tags.replace_all(&text, "").to_string();
-                        text = replace_linebreaks.replace_all(&text, "\n").to_string();
-                        text = replace_footnotes.replace_all(&text, "").to_string();
-                        text = text.trim().to_string();
-                    } else {
-                        url = "https://www.bibleserver.com/".to_string();
-                        urlfin = format!("{url}{version}/{book}{n}");
-                        let ergebnis: String = reqwest::get(&urlfin)
-                            .await
-                            .unwrap()
-                            .text()
-                            .await
-                            .unwrap()
-                            .to_string();
-                        let ergebnis: Vec<&str> = ergebnis
-                            .split("<header style=\"grid-row:1 / 2;\">")
-                            .collect();
-                        let ergebnis: Vec<&str> = ergebnis[1].split("<footer ").collect();
-                        text = ergebnis[0].to_string();
-                        text = replace_specialtags.replace_all(&text, "").to_string();
-                        text = text.replace("</h1>", "</h1>++break++");
-                        text = text.replace("</h2>", "</h2>++break++");
-                        text = text.replace("</h3>", "<h3>++break++");
-                        text = replace_tags.replace_all(&text, "").to_string();
-                        text = replace_linebreaks.replace_all(&text, "").to_string();
-                        text = replace_footnotes.replace_all(&text, "").to_string();
-                        text = text.trim().to_string();
-                        text = text.replace("\u{2}", "\n");
-                        text = text.replace("\u{3}", "");
-                        text = text.replace(" &#x1;", "\n## ");
-                        text = text.replace("&#x1;", "\n## ");
-                        text = text.replace("++break++", "\n");
-                        text = text.trim().to_string();
-                    }
-
-                    let replace_verse_start = Regex::new(r"\n(?P<v>\d+)").unwrap();
-                    let chapter_text = replace_verse_start
-                        .replace_all(&text, "\n\n ###### $v \n\n")
+            }
+            let dateiname = format!("{version}/{bookname}.md");
+            let dir = format!("{version}");
+            if !Path::new(&dir).exists() {
+                let _ = std::fs::create_dir(&dir).ok();
+            }
+            let mut file =
+                File::create(&dateiname).expect("Datei konnte leider nicht erstellt werden.");
+            let mut ausgabe = " ".to_string();
+            for n in 1..chapters + 1 {
+                let mut url = String::new();
+                let mut urlfin = String::new();
+                let mut text = String::new();
+                let replace_specialtags =
+                    Regex::new(r#"<span class="d-sr-only"></span>"#).unwrap();
+                let replace_tags = Regex::new(r#"<.*?>"#).unwrap();
+                let replace_linebreaks = Regex::new(r#"\n"#).unwrap();
+                let replace_footnotes = Regex::new(r#".[0-9]]"#).unwrap();
+                if version == "BB" || version == "NA28" || version == "BHS" {
+                    url = "https://www.die-bibel.de/bibel/".to_string();
+                    urlfin = format!("{url}{version}/{book}.{n}");
+                    let ergebnis: String = reqwest::get(&urlfin)
+                        .await
+                        .unwrap()
+                        .text()
+                        .await
+                        .unwrap()
                         .to_string();
-                    let chapter_file = format!("{version}/{bookname}/{bookname} {n}.md");
-                    pb.set_width(Some(66));
-                    pb.message(format!("{} ", bookname).as_str());
-                    pb.inc();
-                    let dirchapter = format!("{version}/{bookname}");
-                    if !Path::new(&dirchapter).exists() {
-                        fs::create_dir(&dirchapter).unwrap();
-                    }
-                    let mut chapterfile = File::create(&chapter_file)
-                        .expect("Datei konnte leider nicht erstellt werden.");
-                    chapterfile
-                        .write_all(&chapter_text.as_bytes())
-                        .expect("Inhalt konnte leider nicht geschrieben werden!");
-
-                    ausgabe.push_str(&text);
-                    ausgabe.push_str("\n");
+                    let ergebnis: Vec<&str> = ergebnis
+                        .split("<ibep-bible-chapter _nghost-ibep-main-c4145848528>")
+                        .collect();
+                    let ergebnis: Vec<&str> =
+                        ergebnis[1].split("</ibep-bible-chapter>").collect();
+                    text = ergebnis[0].to_string();
+                    text = text.replace("<br>", "\n");
+                    text = text.replace("<bible-v", "\n<bible-v");
+                    text = text.replace("</bible-v>", " </bible-v>");
+                    text = text.replace("</ibep-bible-passage>", " </ibep-bible-passage>");
+                    text = replace_specialtags.replace_all(&text, "").to_string();
+                    text = replace_tags.replace_all(&text, "").to_string();
+                    text = replace_linebreaks.replace_all(&text, "\n").to_string();
+                    text = replace_footnotes.replace_all(&text, "").to_string();
+                    text = text.trim().to_string();
+                } else {
+                    url = "https://www.bibleserver.com/".to_string();
+                    urlfin = format!("{url}{version}/{book}{n}");
+                    let ergebnis: String = reqwest::get(&urlfin)
+                        .await
+                        .unwrap()
+                        .text()
+                        .await
+                        .unwrap()
+                        .to_string();
+                    let ergebnis: Vec<&str> = ergebnis
+                        .split("<header style=\"grid-row:1 / 2;\">")
+                        .collect();
+                    let ergebnis: Vec<&str> = ergebnis[1].split("<footer ").collect();
+                    text = ergebnis[0].to_string();
+                    text = replace_specialtags.replace_all(&text, "").to_string();
+                    text = text.replace("</h1>", "</h1>++break++");
+                    text = text.replace("</h2>", "</h2>++break++");
+                    text = text.replace("</h3>", "<h3>++break++");
+                    text = replace_tags.replace_all(&text, "").to_string();
+                    text = replace_linebreaks.replace_all(&text, "").to_string();
+                    text = replace_footnotes.replace_all(&text, "").to_string();
+                    text = text.trim().to_string();
+                    text = text.replace("\u{2}", "\n");
+                    text = text.replace("\u{3}", "");
+                    text = text.replace(" &#x1;", "\n## ");
+                    text = text.replace("&#x1;", "\n## ");
+                    text = text.replace("++break++", "\n");
+                    text = text.trim().to_string();
                 }
-                file.write_all(ausgabe.as_bytes())
+
+                let replace_verse_start = Regex::new(r"\n(?P<v>\d+)").unwrap();
+                let chapter_text = replace_verse_start
+                    .replace_all(&text, "\n\n ###### $v \n\n")
+                    .to_string();
+                let chapter_file = format!("{version}/{bookname}/{bookname} {n}.md");
+                let dirchapter = format!("{version}/{bookname}");
+                if !Path::new(&dirchapter).exists() {
+                    let _ = std::fs::create_dir(&dirchapter).unwrap();
+                }
+                let mut chapterfile = File::create(&chapter_file)
+                    .expect("Datei konnte leider nicht erstellt werden.");
+                chapterfile
+                    .write_all(&chapter_text.as_bytes())
                     .expect("Inhalt konnte leider nicht geschrieben werden!");
-            });
+
+                ausgabe.push_str(&text);
+                ausgabe.push_str("\n");
+
+                let mut pb = pb.lock().unwrap();
+                pb.set_message(format!("{} Kapitel {}", bookname, n));
+                pb.inc(1);
+            }
+            file.write_all(ausgabe.as_bytes())
+                .expect("Inhalt konnte leider nicht geschrieben werden!");
+        });
     });
     let mut pb = pb.lock().unwrap();
-    pb.finish();
+    pb.finish_with_message("Fertig!");
     Ok(())
 }
