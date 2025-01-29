@@ -12,6 +12,11 @@ use std::process::exit;
 use std::thread;
 
 fn main() {
+    rayon::ThreadPoolBuilder::new().num_threads(10).build_global().unwrap();
+    crawler();
+}
+
+fn crawler() {
     start();
     let mut entscheidung = String::new();
     println!("\nNochmal? J/N");
@@ -24,7 +29,7 @@ fn main() {
     if entscheidung == "N" || entscheidung == "n" {
         exit(1);
     } else {
-        main();
+        crawler();
     }
 }
 
@@ -191,7 +196,6 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let pb = std::sync::Arc::new(std::sync::Mutex::new(ProgressBar::new(
         total_chapters as u64,
     )));
-    rayon::ThreadPoolBuilder::new().num_threads(5).build_global().unwrap();
     v.par_iter().for_each(|&i| {
         let pb = pb.clone();
         let mut pb = pb.lock().unwrap();
