@@ -287,10 +287,11 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
                         .unwrap()
                         .to_string();
                     let mut ergebnis: Vec<&str> = ergebnis
-                        .split("<header style=\"grid-row:1 / 2;\">")
+                        .split("<header style=")
                         .collect();
                     ergebnis = ergebnis[1].split("<footer").collect();
                     text = ergebnis[0].to_string();
+                    text = "<".to_string() + &text;
                     text = replace_specialtags.replace_all(&text, "").to_string();
                     text = text.replace("</h1>", "</h1>++break++");
                     text = text.replace("</h2>", "</h2>++break++");
