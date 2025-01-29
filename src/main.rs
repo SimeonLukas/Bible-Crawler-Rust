@@ -199,7 +199,7 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     )));
     v.par_iter().for_each(|&i| {
         let pb = pb.clone();
-        let mut pb = pb.lock().unwrap();
+        let mut pb = pb.lock().expect("Could not lock progress bar");
         let json = json.clone();
         let namesjson = namesjson.clone();
         let nameconvention = nameconvention.clone();
