@@ -49,88 +49,124 @@ async fn start() -> Result<(), Box<dyn std::error::Error>> {
     let bb_json = include_str!("BB.json").to_string();
     let na28_json = include_str!("NA28.json").to_string();
     let bhs_json = include_str!("BHS.json").to_string();
+    // Neue Versionen von bibelserver
+    let cuvs_json = include_str!("CUVS.json").to_string();
+    let nrs_json = include_str!("NRS.json").to_string();
+    let nvip_json = include_str!("NVIP.json").to_string();
+    let nrt_json = include_str!("NRT.json").to_string();
+    let esv_json = include_str!("ESV.json").to_string();
 
-    println!("Welche Bibel soll es sein?");
-    println!("Übersetzungen von bibleserver.com:");
-    println!(
-        "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
-        "1. Einheitsübersetzung (EU)",
-        "2. Luther Bibel (LUT)",
-        "3. Elberfelder Bibel (ELB)",
-        "4. Hoffnung für alle (HFA)"
-    );
-    println!(
-        "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
-        "5. Schlachter Bibel (SLT)",
-        "6. La Biblia Textual (BTX)",
-        "7. Gute Nachricht Bibel 2018 (GNB)",
-        "8. Neue Evangelistische Übersetzung (NEUE / NeÜ)"
-    );
-    println!("Übersetzungen von die-bibel.de:");
-    println!(
-        "{0: <30} | {1: <30} | {2: <30}",
-        "9. Basis Bibel (BB)",
-        "10. Nestle-Aland 28 (NA28)",
-        "11. Biblia Hebraica Stuttgartensia (BHS)"
-    );
-    let json;
-    let mut version = String::new();
-    io::stdin()
-        .read_line(&mut version)
-        .expect("Diese Version kenne ich nicht!");
-    version = version.trim().to_string();
+   println!("Welche Bibel soll es sein?");
+println!("Übersetzungen von bibleserver.com:");
+println!(
+    "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
+    "1. Einheitsübersetzung (EU)",
+    "2. Luther Bibel (LUT)",
+    "3. Elberfelder Bibel (ELB)",
+    "4. Hoffnung für alle (HFA)"
+);
+println!(
+    "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
+    "5. Schlachter Bibel (SLT)",
+    "6. La Biblia Textual (BTX)",
+    "7. Gute Nachricht Bibel 2018 (GNB)",
+    "8. Neue Evangelistische Übersetzung (NEUE / NeÜ)"
+);
+println!("Übersetzungen von die-bibel.de:");
+println!(
+    "{0: <30} | {1: <30} | {2: <30}",
+    "9. Basis Bibel (BB)",
+    "10. Nestle-Aland 28 (NA28)",
+    "11. Biblia Hebraica Stuttgartensia (BHS)"
+);
+println!("Weitere Übersetzungen von bibleserver.com:");
+println!(
+    "{0: <30} | {1: <30} | {2: <30} | {3: <30}",
+    "12. Chinese Union Version Simplified (CUVS)",
+    "13. Nuova Riveduta 2006 (NRS)",
+    "14. Nova Versão Internacional (NVIP)",
+    "15. Новый русский перевод (NRT)"
+);
+println!("{0: <30}", "16. English Standard Version (ESV)");
 
-    if version == "1" || version == "EU" {
-        println!("Die Einheitsübersetzung wurde gewählt.");
-        version = "EU".to_string();
-        json = eu_json;
-    } else if version == "2" || version == "LUT" {
-        println!("Die Luther Bibel wurde gewählt!");
-        version = "LUT".to_string();
-        json = lut_json;
-    } else if version == "3" || version == "ELB" {
-        println!("Die Elberfelder Bibel wurde gewählt!");
-        version = "ELB".to_string();
-        json = elb_json;
-    } else if version == "4" || version == "HFA" {
-        println!("Die Hoffnung für alle Bibel wurde gewählt!");
-        version = "HFA".to_string();
-        json = hfa_json;
-    } else if version == "5" || version == "SLT" {
-        println!("Die Schlachter Bibel wurde gewählt!");
-        version = "SLT".to_string();
-        json = slt_json;
-    } else if version == "6" || version == "BTX" {
-        println!("La Biblia Textual wurde gewählt!");
-        version = "BTX".to_string();
-        json = btx_json;
-    } else if version == "7" || version == "GNB" {
-        println!("Gute Nachricht Bibel 2018 wurde gewählt!");
-        version = "GNB".to_string();
-        json = gnb_json;
-    } else if version == "8" || version == "NEÜ" {
-        println!("Neue Evangelistische Übersetzung wurde gewählt!");
-        version = "NEÜ".to_string();
-        json = neue_json;
-    } else if version == "9" || version == "BB" {
-        println!("Basis Bibel wurde gewählt!");
-        version = "BB".to_string();
-        json = bb_json;
-    } else if version == "10" || version == "NA28" {
-        println!("Nestle-Aland 28 wurde gewählt!");
-        version = "NA28".to_string();
-        json = na28_json;
-    } else if version == "11" || version == "BHS" {
-        println!("Biblia Hebraica Stuttgartensia wurde gewählt!");
-        version = "BHS".to_string();
-        json = bhs_json;
-    } else {
-        println!(
-            "Da keine vorhandene Bibel gewählt wurde, wurde die Einheitsübersetzung ausgewählt."
-        );
-        version = "EU".to_string();
-        json = eu_json;
-    }
+let json;
+let mut version = String::new();
+io::stdin()
+    .read_line(&mut version)
+    .expect("Diese Version kenne ich nicht!");
+version = version.trim().to_string();
+
+if version == "1" || version == "EU" {
+    println!("Die Einheitsübersetzung wurde gewählt.");
+    version = "EU".to_string();
+    json = eu_json;
+} else if version == "2" || version == "LUT" {
+    println!("Die Luther Bibel wurde gewählt!");
+    version = "LUT".to_string();
+    json = lut_json;
+} else if version == "3" || version == "ELB" {
+    println!("Die Elberfelder Bibel wurde gewählt!");
+    version = "ELB".to_string();
+    json = elb_json;
+} else if version == "4" || version == "HFA" {
+    println!("Die Hoffnung für alle Bibel wurde gewählt!");
+    version = "HFA".to_string();
+    json = hfa_json;
+} else if version == "5" || version == "SLT" {
+    println!("Die Schlachter Bibel wurde gewählt!");
+    version = "SLT".to_string();
+    json = slt_json;
+} else if version == "6" || version == "BTX" {
+    println!("La Biblia Textual wurde gewählt!");
+    version = "BTX".to_string();
+    json = btx_json;
+} else if version == "7" || version == "GNB" {
+    println!("Gute Nachricht Bibel 2018 wurde gewählt!");
+    version = "GNB".to_string();
+    json = gnb_json;
+} else if version == "8" || version == "NEÜ" {
+    println!("Neue Evangelistische Übersetzung wurde gewählt!");
+    version = "NEÜ".to_string();
+    json = neue_json;
+} else if version == "9" || version == "BB" {
+    println!("Basis Bibel wurde gewählt!");
+    version = "BB".to_string();
+    json = bb_json;
+} else if version == "10" || version == "NA28" {
+    println!("Nestle-Aland 28 wurde gewählt!");
+    version = "NA28".to_string();
+    json = na28_json;
+} else if version == "11" || version == "BHS" {
+    println!("Biblia Hebraica Stuttgartensia wurde gewählt!");
+    version = "BHS".to_string();
+    json = bhs_json;
+} else if version == "12" || version == "CUVS" {
+    println!("Die Chinese Union Version Simplified wurde gewählt!");
+    version = "CUVS".to_string();
+    json = cuvs_json;
+} else if version == "13" || version == "NRS" {
+    println!("Die Nuova Riveduta 2006 wurde gewählt!");
+    version = "NRS".to_string();
+    json = nrs_json;
+} else if version == "14" || version == "NVIP" {
+    println!("Die Nova Versão Internacional wurde gewählt!");
+    version = "NVIP".to_string();
+    json = nvip_json;
+} else if version == "15" || version == "NRT" {
+    println!("Der Novyj Russkij Perevod wurde gewählt!");
+    version = "NRT".to_string();
+    json = nrt_json;
+} else if version == "16" || version == "ESV" {
+    println!("Die English Standard Version wurde gewählt!");
+    version = "ESV".to_string();
+    json = esv_json;
+} else {
+    println!(
+        "Da keine vorhandene Bibel gewählt wurde, wurde die Einheitsübersetzung ausgewählt."
+    );
+    version = "EU".to_string();
+    json = eu_json;
+}
 
     println!("\nWelche Namenskonvention soll verwendet werden?");
     println!("1. Abkürzungen Großbuchstaben (GEN, EXO, LEV, NUM, DEU, etc.)");
